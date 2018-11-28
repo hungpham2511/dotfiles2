@@ -1,0 +1,25 @@
+#! /bin/sh
+
+NAME=`hostname`
+if [ "$NAME"="hung-vaio" ]
+then
+    DEVICECLUE="TouchPad"
+else
+    DEVICECLUE="Touch"
+fi
+
+
+ID=`xinput list | grep $DEVICECLUE | grep -o "id=[1-2][0-9]" | grep -o "[1-2][0-9]"`
+STATE=`xinput list-props $ID | grep Enabled | grep -o [01]$`
+echo "Device's id: $ID\nStatus: $STATE"
+
+case $STATE in
+    0) echo "Device off. Turning on."
+       xinput enable $ID
+       ;;
+    1) echo "Device on. Turning off."
+       xinput disable $ID
+       ;;
+esac
+
+
