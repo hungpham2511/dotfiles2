@@ -21,6 +21,8 @@
 ;; Enable use-package
 (eval-when-compile
   (require 'use-package))
+
+(package-install 'diminish)
 (require 'diminish)
 (require 'bind-key)
 
@@ -557,7 +559,7 @@
 
 ;; emacs company jedi work with ros
 (use-package company-jedi
-  :load-path "/home/hung/.emacs.d/git/emacs-company-jedi"
+  :load-path "git/emacs-company-jedi"
   :config (progn
 	    (defun my/python-mode-hook ()
 	      (add-to-list 'company-backends 'company-jedi))
