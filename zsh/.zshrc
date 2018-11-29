@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/home/hung/.oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -102,9 +102,9 @@ alias gccp='sh /home/hung/git/robotic-CRI/cpp-learn/gccp'
 if [ -f "/opt/ros/kinetic/setup.zsh" ]
 then
     source /opt/ros/kinetic/setup.zsh
-    source /home/hung/catkin_ws/devel/setup.zsh
+    source $HOME/catkin_ws/devel/setup.zsh
 else
-    echo "Did not find ROS shell-script."
+    echo "warn: Unable to find ROS."
 fi
 
 # Virtual ENVs
@@ -114,11 +114,16 @@ if [ -f "/usr/local/bin/virtualenvwrapper.sh" ]
 then
     source /usr/local/bin/virtualenvwrapper.sh
 else
-    source /home/hung/.local/bin/virtualenvwrapper.sh
+    source $HOME/.local/bin/virtualenvwrapper.sh
 fi
 
 # Add OpenRAVE path
 # THis allows us to use openravepy in virtual environment without making symlink
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(openrave-config --python-dir)/openravepy/_openravepy_
-export PYTHONPATH=$PYTHONPATH:$(openrave-config --python-dir)
+if [ -f "/usr/local/lib/libopenrave0.9-core.so" ] 
+then
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(openrave-config --python-dir)/openravepy/_openravepy_
+    export PYTHONPATH=$PYTHONPATH:$(openrave-config --python-dir)
+else
+    echo "warn: unable to find openrave."
+fi
 
