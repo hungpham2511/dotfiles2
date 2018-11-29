@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: equation* block
+# key: e*
+# --
+\begin{equation*}
+$0
+\end{equation*}
+
+   
+    

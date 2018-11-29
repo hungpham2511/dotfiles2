@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: table block
+# key: table
+# --
+\begin{table}[htp]
+  \caption{\label{tab:$1} $2}
+  \centering
+  \begin{tabular}{$3}
+  \toprule
+  \midrule
+  \bottomrule
+  \end{tabular}
+\end{table}

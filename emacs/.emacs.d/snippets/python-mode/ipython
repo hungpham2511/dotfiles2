@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: iPYthon 
+# key: ip
+# --
+import IPython
+if IPython.get_ipython() is None:
+    IPython.embed()
+    
+
