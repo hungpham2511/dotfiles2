@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: timeit
+# key: tt
+# --
+import time
+t_ = time.time()
+print "[Time taken] {:10.6f} secs".format(time.time() - t_)

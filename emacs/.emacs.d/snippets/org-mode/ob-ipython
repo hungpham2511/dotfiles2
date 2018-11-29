@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: ipython block
+# key: py
+# --
+#+BEGIN_SRC ipython :session :exports results :results raw drawer :eval no-export
+#-------------------------------------------------------------
+  $0
+#-------------------------------------------------------------
+#+END_SRC
+    
+    

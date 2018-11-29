@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: frac block
+# key: frac
+# --
+\frac{$1}{$0}

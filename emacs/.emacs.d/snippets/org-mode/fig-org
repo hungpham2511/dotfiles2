@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: figure block
+# key: fig
+# --
+
+#+CAPTION: $1
+#+ATTR_LaTeX: :width $2cm
+#+LABEL: fig:label
+[[file:~/Dropbox/org_imgs/$0]]
+
+    
