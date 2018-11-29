@@ -182,6 +182,9 @@
 (use-package yaml-mode
   :ensure t)
 
+(use-package writeroom-mode
+  :ensure t
+
 ;; pdf-tools for viewing pdf in emacs
 (use-package pdf-tools
   :ensure t
