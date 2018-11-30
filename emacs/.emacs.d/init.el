@@ -183,7 +183,7 @@
   :ensure t)
 
 (use-package writeroom-mode
-  :ensure t
+  :ensure t)
 
 ;; pdf-tools for viewing pdf in emacs
 (use-package pdf-tools
