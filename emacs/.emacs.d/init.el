@@ -21,8 +21,6 @@
 ;; Enable use-package
 (eval-when-compile
   (require 'use-package))
-
-(package-install 'diminish)
 (require 'diminish)
 (require 'bind-key)
 
@@ -250,7 +248,6 @@
 (use-package cdlatex
   :ensure t)
 
-
 (use-package ag
   :ensure t
   :defer t
@@ -261,13 +258,33 @@
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode)
-  :config (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11"))))
+  :config
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11"))))
 
 (use-package yasnippet-snippets
   :ensure t
   :config
   (yas-global-mode 1))
 
+(use-package ivy-bibtex
+  :ensure t
+  :bind (("<f2>" . ivy-bibtex))
+  :config
+  (progn
+    (setq ivy-re-builders-alist
+	  '((ivy-bibtex . ivy--regex-ignore-order)
+	    (t . ivy--regex-plus)))
+    (setq bibtex-completion-bibliography
+	  '("~/Dropbox/BookandPaper/biblio/library.bib"))
+
+    (setq bibtex-completion-notes-path "~/org/papers.org")
+
+    ;; this allows bibtex-search to find tags in addition to other field
+    (setq bibtex-completion-additional-search-fields '(tags))
+
+    (setq bibtex-completion-library-path '("~/Dropbox/BookandPaper/Papers"))
+    )
+  )
 
 (use-package org-habit)
 
@@ -562,7 +579,7 @@
 
 ;; emacs company jedi work with ros
 (use-package company-jedi
-  :load-path "git/emacs-company-jedi"
+  :load-path "/home/hung/.emacs.d/git/emacs-company-jedi"
   :config (progn
 	    (defun my/python-mode-hook ()
 	      (add-to-list 'company-backends 'company-jedi))
@@ -622,7 +639,7 @@
 		 ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(package-selected-packages
    (quote
-    (irony-eldoc cmake-mode magit gruvbox-theme docker-tramp scad-mode plantuml-mode haskell-mode ein writeroom-mode matlab-mode cython-mode ggtags all-the-icons-dired dired-sidebar ob-blockdiag ob-ipython my-misc-config company-anaconda anaconda-mode overall_configurations overall-configurations org-element smartparens cdlatex hydra ess lua-mode yasnippet-snippets company-mode company-jedi markdown-mode yaml-mode paredit evil-magit company-irony irony traad pymacs projectile rebecca-theme solarized-theme org-pdfview highlight-symbol smex avy use-package)))
+    (ivy-bibtex irony-eldoc cmake-mode magit gruvbox-theme docker-tramp scad-mode plantuml-mode haskell-mode ein writeroom-mode matlab-mode cython-mode ggtags all-the-icons-dired dired-sidebar ob-blockdiag ob-ipython my-misc-config company-anaconda anaconda-mode overall_configurations overall-configurations org-element smartparens cdlatex hydra ess lua-mode yasnippet-snippets company-mode company-jedi markdown-mode yaml-mode paredit evil-magit company-irony irony traad pymacs projectile rebecca-theme solarized-theme org-pdfview highlight-symbol smex avy use-package)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
