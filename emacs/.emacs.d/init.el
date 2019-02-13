@@ -134,6 +134,14 @@
   :ensure t)
 (require 'python-configs nil t)  ;; require is similar to include.
 
+(use-package ox-reveal
+  :ensure t
+  :config
+
+  (setq org-reveal-root "/home/hung/Downloads/reveal.js-3.7.0")
+
+  )
+
 ;; setup stage 4: configure org setup
 (use-package my-org-configs
   :load-path "~/.emacs.d/elisp"
@@ -178,9 +186,6 @@
   :init (setq markdown-command "multimarkdown"))
 
 (use-package yaml-mode
-  :ensure t)
-
-(use-package writeroom-mode
   :ensure t)
 
 ;; pdf-tools for viewing pdf in emacs
@@ -280,7 +285,7 @@
     (setq bibtex-completion-notes-path "~/org/papers.org")
 
     ;; this allows bibtex-search to find tags in addition to other field
-    (setq bibtex-completion-additional-search-fields '(tags))
+    (setq bibtex-completion-additional-search-fields '(tags journal))
 
     (setq bibtex-completion-library-path '("~/Dropbox/BookandPaper/Papers"))
     )
@@ -639,7 +644,7 @@
 		 ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(package-selected-packages
    (quote
-    (ivy-bibtex irony-eldoc cmake-mode magit gruvbox-theme docker-tramp scad-mode plantuml-mode haskell-mode ein writeroom-mode matlab-mode cython-mode ggtags all-the-icons-dired dired-sidebar ob-blockdiag ob-ipython my-misc-config company-anaconda anaconda-mode overall_configurations overall-configurations org-element smartparens cdlatex hydra ess lua-mode yasnippet-snippets company-mode company-jedi markdown-mode yaml-mode paredit evil-magit company-irony irony traad pymacs projectile rebecca-theme solarized-theme org-pdfview highlight-symbol smex avy use-package)))
+    (ox-reveal reveal-ox ivy-bibtex irony-eldoc cmake-mode magit gruvbox-theme docker-tramp scad-mode plantuml-mode haskell-mode ein writeroom-mode matlab-mode cython-mode ggtags all-the-icons-dired dired-sidebar ob-blockdiag ob-ipython my-misc-config company-anaconda anaconda-mode overall_configurations overall-configurations org-element smartparens cdlatex hydra ess lua-mode yasnippet-snippets company-mode company-jedi markdown-mode yaml-mode paredit evil-magit company-irony irony traad pymacs projectile rebecca-theme solarized-theme org-pdfview highlight-symbol smex avy use-package)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
