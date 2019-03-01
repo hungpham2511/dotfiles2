@@ -102,10 +102,16 @@ alias gccp='sh /home/hung/git/robotic-CRI/cpp-learn/gccp'
 if [ -f "/opt/ros/kinetic/setup.zsh" ]
 then
     source /opt/ros/kinetic/setup.zsh
-    source $HOME/catkin_ws/devel/setup.zsh
 else
     echo "warn: Unable to find ROS."
 fi
+
+function source_catkin_ws {
+    echo "sourcing: $HOME/$1/devel/setup.zsh"
+    source $HOME/$1/devel/setup.zsh
+}
+
+source_catkin_ws catkin_ws
 
 # Virtual ENVs
 export WORKON_HOME=~/Envs

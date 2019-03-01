@@ -280,7 +280,10 @@
 	  '((ivy-bibtex . ivy--regex-ignore-order)
 	    (t . ivy--regex-plus)))
     (setq bibtex-completion-bibliography
-	  '("~/Dropbox/BookandPaper/biblio/library.bib"))
+	  '(
+	    "~/Dropbox/BookandPaper/biblio/library.bib"
+	    "~/Dropbox/BookandPaper/biblio/library_misc.bib"
+	    ))
 
     (setq bibtex-completion-notes-path "~/org/papers.org")
 
