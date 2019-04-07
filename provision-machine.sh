@@ -6,13 +6,7 @@ sudo apt-get update
 
 # basic stuffs
 sudo apt-get install -y --no-install-recommends stow tmux awesome awesome-extra curl \
-     emacs26 zsh
-
-# zsh
-# install core zsh shell
-sudo chsh -s $(which zsh)
-# oh-my-zsh
-sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+     emacs26 zsh wget git python python3
 
 # remove zshrc if exist
 if [ -f ~/.zshrc ]
@@ -42,4 +36,11 @@ stow zsh
 stow urxvt
 stow awesomewm
 stow emacs
+
+# zsh optional
+# install core zsh shell
+sudo chsh -s $(which zsh)
+
+# oh-my-zsh
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" || echo "install oh my zsh"
 

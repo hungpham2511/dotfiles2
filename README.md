@@ -1,3 +1,8 @@
+# provision a new machine
+1. Install ubuntu 16.04 or 18.04
+2. Run `provision-machine.sh`
+3. Configure `awesomewm`
+
 # to run cron job
 
 edit crontab 
