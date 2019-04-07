@@ -13,6 +13,11 @@
 ;; directory containing my personal elisp scripts
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 
+(unless (package-installed-p 'diminish)
+  (package-refresh-contents)
+  (package-install 'diminish))
+
+
 ;; Install 'use-package' if necessary
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)

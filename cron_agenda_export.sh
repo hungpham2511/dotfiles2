@@ -1,2 +1,2 @@
-emacs -batch -l ~/.emacs.d/init.el -eval '(org-batch-agenda "j")' > ~/Dropbox/agenda
+emacs -batch -l ~/.emacs.d/init.el -eval '(org-store-agenda-views)'
 date >> /tmp/cron_job_out

@@ -111,7 +111,7 @@ function source_catkin_ws {
     source $HOME/$1/devel/setup.zsh
 }
 
-source_catkin_ws catkin_ws
+# source_catkin_ws catkin_ws
 
 # Virtual ENVs
 export WORKON_HOME=~/Envs
@@ -133,3 +133,7 @@ else
     echo "warn: Unable to find openrave."
 fi
 
+
+# tabtab source for electron-forge package
+# uninstall by removing these lines or running `tabtab uninstall electron-forge`
+[[ -f /home/hung/git/my-electron-react-app/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /home/hung/git/my-electron-react-app/node_modules/tabtab/.completions/electron-forge.zsh
