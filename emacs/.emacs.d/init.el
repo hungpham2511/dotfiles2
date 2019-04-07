@@ -40,27 +40,26 @@
   :demand
   :config
   ;; (load-theme 'gruvbox-dark-hard t)
-  (load-theme 'kaolin-dark t)
-  (kaolin-treemacs-theme)
-  )
+  (load-theme 'kaolin-valley-dark t)
+  (kaolin-treemacs-theme))
 
 ;; setup stage 3: python configuration
 (use-package jedi-core
-  :ensure t)
-(require 'python-configs nil t)  ;; require is similar to include.
+  :ensure t
+  :config
+  (jedi:install-server))
 
-;; setup stage 4: configure org setup
-(use-package my-org-configs
+(use-package python-configs
   :load-path "~/.emacs.d/elisp"
   :demand
-  :config
-  (evil-define-key 'normal bibtex-mode-map (kbd "SPC") 'org-bibtex-generate-org-entry)
-  (evil-define-key 'normal org-mode-map (kbd "SPC") 'org-sort-by-year))
+  :after jedi-core)
 
+;; setup stage 4: configure org setup
 ;; My personal library, some snippets thats it
 (use-package config-misc
   :load-path "~/.emacs.d/elisp"
   :demand
+  :after org
   ;; :after evil org
   :bind (("<f5>" . org-random-entry-TODO)
 	 ("<f6>" . org-random-entry-TOREAD)
@@ -81,102 +80,16 @@
   :load-path "~/.emacs.d/elisp"
   :demand)
 
-
 (use-package config-org
   :load-path "~/.emacs.d/elisp"
   :demand)
 
-;; (require 'ob-latex)
-;; (use-package ox-latex
-;;   :config
-;;   (progn
-;;     (setq org-latex-pdf-process (list "latexmk -pdf %f"))
-;;     (unless (boundp 'org-latex-classes)
-;;       (setq org-latex-classes nil))
-;;     (add-to-list 'org-latex-classes
-;; 		 '("ieeetran"
-;; 		   "\\documentclass{IEEEtran}
-;; \\usepackage{bm}
-;; \\usepackage{mathrsfs}
-;; \\usepackage{siunitx}
-;; \\renewcommand{\\vec}[1]{\\bm{\\mathrm{#1}}}
-;; \\usepackage[ruled, linesnumbered]{algorithm2e}
-
-;; \\SetKwIF{If}{ElseIf}{Else}{if}{ then}{elif}{else}{}%
-;; \\SetKwFor{For}{for}{ do}{}%
-;; \\SetKwFor{ForEach}{foreach}{ do}{}%
-;; \\SetKwInOut{Input}{Input}%
-;; \\SetKwInOut{Output}{Output}%
-;; \\AlgoDontDisplayBlockMarkers%
-;; \\SetAlgoNoEnd%
-;; \\SetAlgoNoLine%
-;; \\DontPrintSemicolon
-
-;; \\usepackage{amsthm}
-
-;; \\theoremstyle{plain}
-;; \\newtheorem{theorem}{Theorem}
-;; \\newtheorem{lem}{Lemma}
-;; \\newtheorem{proposition}{Proposition}
-
-;; "
-
-;; 		   ("\\section{%s}" . "\\section*{%s}")
-;; 		   ("\\subsection{%s}" . "\\subsection*{%s}")
-;; 		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-;; 		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;; 		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
-
-;;     (add-to-list 'org-latex-classes
-;; 		 '("koma-article"
-;; 		   "\\documentclass[draft=false, parskip=half, toc=selection, BCOR=8.25mm, DIV=15]{scrartcl}
-;; \\usepackage{bm}
-;; \\usepackage{mathrsfs}
-;; \\usepackage{siunitx}
-;; \\usepackage{graphicx} 
-;; \\usepackage{tikz}
-;; \\renewcommand{\\vec}[1]{\\bm{\\mathrm{#1}}}"
-;; 		   ("\\section{%s}" . "\\section*{%s}")
-;; 		   ("\\subsection{%s}" . "\\subsection*{%s}")
-;; 		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-;; 		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;; 		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
-
-;; ;; Completion package
-;; (use-package company
-;;   :ensure t
-;;   :bind (
-;; 	 ("C-M-i" . company-complete)
-;; 	 :map python-mode-map
-;; 	 ("C-M-i" . company-complete)
-;; 	 :map emacs-lisp-mode-map
-;; 	 ("C-M-i" . company-complete)
-;; 	 )
-;;   :config
-;;   (add-hook 'after-init-hook 'global-company-mode)
-;;   (setq company-idle-delay 0)
-;;   (setq company-minimum-prefix-length 1))
-
-;; (use-package smartparens
-;;   :ensure t
-;;   :config
-;;   (progn
-;;     (require 'smartparens-config)
-;;     (sp-local-pair 'org-mode "$" "$")
-;;     (eval-after-load 'org-mode     '(require 'smartparens-org))
-;;     (eval-after-load 'python-mode   '(require 'smartparens-python))
-;;     (show-smartparens-global-mode)
-;;     (smartparens-global-mode)
-;;     (set-face-foreground 'sp-show-pair-match-face "#8ec07c")))
-;; ;; emacs company jedi work with ros
-;; (use-package company-jedi
-;;   :load-path "/home/hung/.emacs.d/git/emacs-company-jedi"
-;;   :config (progn
-;; 	    (defun my/python-mode-hook ()
-;; 	      (add-to-list 'company-backends 'company-jedi))
-;; 	    (add-hook 'python-mode-hook 'my/python-mode-hook)
-;; 	    (add-hook 'python-mode-hook 'jedi:setup)
-;; 	    (setq jedi:complete-on-dot t)))
+(use-package my-org-configs
+  :load-path "~/.emacs.d/elisp"
+  :after og
+  :config
+  (evil-define-key 'normal bibtex-mode-map (kbd "SPC") 'org-bibtex-generate-org-entry)
+  (evil-define-key 'normal org-mode-map (kbd "SPC") 'org-sort-by-year))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -192,7 +105,7 @@
  '(cua-read-only-cursor-color "#859900")
  '(custom-safe-themes
    (quote
-    ("dc9a8d70c4f94a28aafc7833f8d05667601968e6c9bf998791c39fcb3e4679c9" "5a970147df34752ed45bfdf0729233abfc085d9673ae7e40210c5e2d8f624b08" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "2b6bd2ebad907ee42b3ffefa4831f348e3652ea8245570cdda67f0034f07db93" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "125fd2180e880802ae98b85f282b17f0aa8fa6cb9fc4f33d7fb19a38c40acef0" "65d9573b64ec94844f95e6055fe7a82451215f551c45275ca5b78653d505bc42" default)))
+    ("5c85b6f7f76fe0e0979da4c650dee525ae5185b134cb0fdfb12eeb580ea4dafb" "dc9a8d70c4f94a28aafc7833f8d05667601968e6c9bf998791c39fcb3e4679c9" "5a970147df34752ed45bfdf0729233abfc085d9673ae7e40210c5e2d8f624b08" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "2b6bd2ebad907ee42b3ffefa4831f348e3652ea8245570cdda67f0034f07db93" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "125fd2180e880802ae98b85f282b17f0aa8fa6cb9fc4f33d7fb19a38c40acef0" "65d9573b64ec94844f95e6055fe7a82451215f551c45275ca5b78653d505bc42" default)))
  '(fci-rule-color "#eee8d5")
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors

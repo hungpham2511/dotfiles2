@@ -174,4 +174,59 @@
      'org-src-lang-modes '("plantuml" . plantuml))
     (setq org-src-fontify-natively t)))
 
+;; (use-package ox-latex
+;;   :config
+;;   (progn
+;;     (setq org-latex-pdf-process (list "latexmk -pdf %f"))
+;;     (unless (boundp 'org-latex-classes)
+;;       (setq org-latex-classes nil))
+;;     (add-to-list 'org-latex-classes
+;; 		 '("ieeetran"
+;; 		   "\\documentclass{IEEEtran}
+;; \\usepackage{bm}
+;; \\usepackage{mathrsfs}
+;; \\usepackage{siunitx}
+;; \\renewcommand{\\vec}[1]{\\bm{\\mathrm{#1}}}
+;; \\usepackage[ruled, linesnumbered]{algorithm2e}
+
+;; \\SetKwIF{If}{ElseIf}{Else}{if}{ then}{elif}{else}{}%
+;; \\SetKwFor{For}{for}{ do}{}%
+;; \\SetKwFor{ForEach}{foreach}{ do}{}%
+;; \\SetKwInOut{Input}{Input}%
+;; \\SetKwInOut{Output}{Output}%
+;; \\AlgoDontDisplayBlockMarkers%
+;; \\SetAlgoNoEnd%
+;; \\SetAlgoNoLine%
+;; \\DontPrintSemicolon
+
+;; \\usepackage{amsthm}
+
+;; \\theoremstyle{plain}
+;; \\newtheorem{theorem}{Theorem}
+;; \\newtheorem{lem}{Lemma}
+;; \\newtheorem{proposition}{Proposition}
+
+;; "
+
+;; 		   ("\\section{%s}" . "\\section*{%s}")
+;; 		   ("\\subsection{%s}" . "\\subsection*{%s}")
+;; 		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+;; 		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+;; 		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
+;;     (add-to-list 'org-latex-classes
+;; 		 '("koma-article"
+;; 		   "\\documentclass[draft=false, parskip=half, toc=selection, BCOR=8.25mm, DIV=15]{scrartcl}
+;; \\usepackage{bm}
+;; \\usepackage{mathrsfs}
+;; \\usepackage{siunitx}
+;; \\usepackage{graphicx} 
+;; \\usepackage{tikz}
+;; \\renewcommand{\\vec}[1]{\\bm{\\mathrm{#1}}}"
+;; 		   ("\\section{%s}" . "\\section*{%s}")
+;; 		   ("\\subsection{%s}" . "\\subsection*{%s}")
+;; 		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+;; 		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+;; 		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+
 (provide 'config-org)

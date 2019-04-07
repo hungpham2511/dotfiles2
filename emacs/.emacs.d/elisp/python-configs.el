@@ -9,6 +9,18 @@
 ;; otherwise emacs will complain. Strange, need to investigate this
 ;; problem.
 
+
+;; emacs company jedi work with ros
+(use-package company-jedi
+  :after company
+  :load-path "~/.emacs.d/git/emacs-company-jedi"
+  :config (progn
+	    (defun my/python-mode-hook ()
+	      (add-to-list 'company-backends 'company-jedi))
+	    (add-hook 'python-mode-hook 'my/python-mode-hook)
+	    (add-hook 'python-mode-hook 'jedi:setup)
+	    (setq jedi:complete-on-dot t)))
+
 (condition-case nil
     (progn
       (setq venv-location "~/Envs/")
