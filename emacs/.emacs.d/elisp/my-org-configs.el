@@ -1,7 +1,6 @@
 ;;; my-org-configs -- Summary
 ;;; Commentary:
 ; Simple snippets to use with init.el
-
 (require 'org)
 (require 'org-agenda)
 (require 'org-bibtex)

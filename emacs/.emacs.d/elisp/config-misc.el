@@ -1,7 +1,6 @@
 ;;; Commentary:
 ; Simple snippets to use with init.el
 
-
 ;;; Code:
 (defun hello()
   "Hello World function"
@@ -14,5 +13,5 @@
   (interactive "sEnter Search Entry: ")
   (find-dired "~/Dropbox/" (concat "-iname " "'*" args "*'")))
 
-(provide 'my-misc-configs)
+(provide 'config-misc)
 ;;; hello.el ends here

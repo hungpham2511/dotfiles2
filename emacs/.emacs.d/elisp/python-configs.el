@@ -11,34 +11,12 @@
 
 (condition-case nil
     (progn
-      (setq venv-location "/home/hung/Envs/")
+      (setq venv-location "~/Envs/")
       (venv-workon "ros"))
   (error nil))
 
-;; refactoring tool for python, very cool
-(use-package traad
-  :ensure t
-  :config
-  (add-hook 'python-mode-hook 'auto-revert-mode))
-
 (use-package cython-mode
   :ensure t)
-
-;; ;; refactoring tool for python, very cool
-;; ;; (no longer in use in favour of refactoring using pycharm)
-;; (use-package traad
-;;   :ensure t
-;;   :config
-;;   (add-hook 'python-mode-hook 'auto-revert-mode))
-
-
-;; ;; For some reasons I need to have an active python environment,
-;; ;; otherwise emacs will complain. Strange, need to investigate this
-;; ;; problem.
-;; (condition-case nil
-;;     (progn (setq venv-location "/home/hung/Envs/")
-;; 	   (venv-workon "ros"))
-;;   (error nil))
 
 ;; jedi configuration, main use for python document lookup. work quite
 ;; well in general
