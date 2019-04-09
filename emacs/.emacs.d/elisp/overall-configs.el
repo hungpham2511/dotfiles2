@@ -94,10 +94,14 @@
 ;; Very useful mode, show balancing parens.
 (setq dired-listing-switches "-lah")
 
+(use-package smex
+  :ensure t)
+
 ;; Nice switching windows
 (use-package counsel
   :ensure t
   :demand
+  :after smex
   :bind (("C-s" . swiper)
 	 ("M-x" . counsel-M-x)
 	 ("<f1>" . counsel-M-x)

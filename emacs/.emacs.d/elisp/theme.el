@@ -20,4 +20,8 @@
 (use-package kaolin-themes
   :ensure t)
 
+(use-package zenburn-theme
+  :ensure t)
+
+
 (provide 'theme)
