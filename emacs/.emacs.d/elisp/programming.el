@@ -1,3 +1,9 @@
+
+(use-package js2-mode
+  :ensure t
+  :config
+  (add-hook 'js-mode-hook 'js2-minor-mode))
+
 (use-package flycheck
   :ensure t
   :demand
@@ -21,6 +27,14 @@
 (use-package yaml-mode
   :ensure t)
 
+(use-package slime
+  :ensure t
+  :config
+  ;; Set your lisp system and, optionally, some contribs
+  (setq inferior-lisp-program "/usr/bin/sbcl")
+  (setq slime-contribs '(slime-fancy))
+  )
+
 
 (use-package  highlight-symbol
   :ensure t
@@ -43,6 +57,9 @@
   (add-hook 'after-init-hook 'global-company-mode)
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 1))
+
+(use-package py-autopep8
+  :ensure t)
 
 
 (use-package smartparens

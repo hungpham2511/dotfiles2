@@ -36,8 +36,7 @@
 (setq jedi:server-args-with-ros
       '(;; ros packages
 	;; "--sys-path" "/home/hung/catkin_ws/install/lib/python2.7/dist-packages"
-	"--sys-path" "/opt/ros/kinetic/lib/python2.7/dist-packages"
-	))
+	"--sys-path" "/opt/ros/kinetic/lib/python2.7/dist-packages"))
 
 (defun jedi:add-sys-path (dir)
   "Add DIR to jedi:server-args.
@@ -64,8 +63,7 @@ Append VENV-NAME to jedi:server args, stop the server
 then (restart when needed).  In interactive mode ask for
 VENV-NAME then select it."
   (interactive
-   (list (completing-read "Select env: " (list-virtualenvs)))
-   )
+   (list (completing-read "Select env: " (list-virtualenvs))))
   (message (concat "Setting jedi with " venv-name))
   (setq jedi:server-args
 	(append jedi:server-args-with-ros
@@ -85,6 +83,31 @@ Also, switch to that buffer."
     (if window
         (select-window window)
       (switch-to-buffer "*Occur*"))))
+
+(defun python--list-defs-in-buffer ()
+  "List definitions found in current buffer."
+  (interactive)
+  (goto-char (point-min))
+  (if (re-search-forward "def" nil t)  ;; Search forward for some regular expression
+      (message (thing-at-point 'line))
+    (message "do not found any def")
+      )
+
+  )
+
+
+(defun python-ivy-definitions ()
+  ""
+  (interactive)
+  (ivy-read "python-ivy: "
+	    (list "1" "2" "3")
+            :keymap python-mode-map
+            :preselect (ivy-thing-at-point)
+            :history 'counsel-describe-symbol-history
+            :require-match t
+            :sort t
+            :caller 'python-ivy-definitions))
+
 
 (defun my/python-arg-numpy-docstring (arg)
   "Given an argument ARG.  Output a formatted docstring."

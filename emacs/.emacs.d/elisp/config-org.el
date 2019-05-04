@@ -28,8 +28,14 @@
 				      (message "org-mode hook")
 				      ))
 
+    ;; start org-agenda in another window, i.e. do not destroy my window layout
+    ;; https://stackoverflow.com/questions/10635989/emacs-org-agenda-list-destroy-my-windows-splits
+    (setq org-agenda-window-setup 'other-window)
+
+    ;; setup image
     (setq org-image-actual-width 600)
     (setq org-agenda-search-view-always-boolean t)
+
     (setq org-agenda-files (quote ("~/org/papers.org"
 				   "~/org/research.org"
 				   "~/org/study.org"
@@ -50,12 +56,12 @@
 	  '(
 	    ("j" "(new) work agenda"
 	     ((tags "+project/-DONE-someday-probnever") ;; Select entries with :project: tag and not :DONE: tag
-	      (stuck "") ;; Run stuck command to see org stuck project
-	      (agenda "" )	      ;; Run agenda
-	      (tags-todo "+PRIORITY=\"A\"/TODO")  ;; syntax for mathcing PROPERTY="val"/TODO_keywords
-	      (tags-todo "-PRIORITY=\"A\"-unsrt/TODO")  ;; syntax for mathcing PROPERTY="val"/TODO_keywords
+	      (stuck "")
+	      (agenda "" )
+	      (tags-todo "+PRIORITY=\"A\"/TODO")
+	      (tags-todo "-PRIORITY=\"A\"-unsrt/TODO")
+	      (tags-todo "+unsrt/TODO")
 	      (todo "WaitingFor")
-	      (tags-todo "+unsrt/TODO")  ;; syntax for mathcing PROPERTY="val"/TODO_keywords
 	      )
 	     ;; Custom setting for this command
 	     ((org-agenda-span 'day)
