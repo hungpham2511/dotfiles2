@@ -3,7 +3,7 @@
 2. Run `provision-machine.sh`
 3. Configure `awesomewm`
 
-# to run cron job
+# to run cron job (test)
 
 edit crontab 
 

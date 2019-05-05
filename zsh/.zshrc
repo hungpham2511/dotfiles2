@@ -93,6 +93,13 @@ function mapctrl {
 }
 mapctrl
 
+# update repo, commit and push (org, blog, dotfile)
+function updaterepo {
+    git add -u
+    git commit -m "This is an auto update!"
+    git push origin master
+}
+
 # Research code project
 export PYTHONPATH="${PYTHONPATH}:${HOME}/git/robotic-CRI"
 # quick compilation
