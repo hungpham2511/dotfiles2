@@ -95,6 +95,7 @@ mapctrl
 
 # update repo, commit and push (org, blog, dotfile)
 
+
 function git-autoupdate {
     git add -u
     git commit -m "This is an auto update!"
