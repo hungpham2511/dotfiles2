@@ -65,6 +65,7 @@
 
 (use-package evil-nerd-commenter
   :after evil
+  :ensure t
   :config
   ;; Evilnc keys must set up before org-capture
   (evilnc-default-hotkeys))
