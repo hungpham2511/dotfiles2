@@ -98,8 +98,11 @@ mapctrl
 
 function git-autoupdate {
     git add -u
-    git commit -m "This is an auto update!"
-    git push origin master
+    if git commit -m "This is an auto update!"; then
+	git push origin master
+    else
+	echo "No file added to commit, do not push"
+    fi
 }
 
 # Research code project
