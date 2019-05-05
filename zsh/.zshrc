@@ -132,8 +132,3 @@ then
 else
     echo "warn: Unable to find openrave."
 fi
-
-
-# tabtab source for electron-forge package
-# uninstall by removing these lines or running `tabtab uninstall electron-forge`
-[[ -f /home/hung/git/my-electron-react-app/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /home/hung/git/my-electron-react-app/node_modules/tabtab/.completions/electron-forge.zsh

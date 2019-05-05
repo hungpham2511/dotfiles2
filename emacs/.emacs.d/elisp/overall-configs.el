@@ -4,8 +4,6 @@
 
 ;;; Code:
 ;; System configuraitons
-(define-key global-map (kbd "C-x <backspace>") 'delete-frame)
-(define-key global-map (kbd "C-x <RET>") 'make-frame)
 
 (use-package ag
   :ensure t
@@ -37,23 +35,23 @@
     "Scroll down half page."
     (interactive)
     (evil-scroll-up 0))
+
+  ;; key binding in evil and global-map
   (define-key evil-normal-state-map (kbd "C-i") 'scroll-up-half-page)
   (define-key evil-normal-state-map (kbd "C-d") 'scroll-down-half-page)
-  (define-key global-map (kbd "C-i") 'scroll-up-half-page)
-  (define-key global-map (kbd "C-d") 'scroll-down-half-page)
+  (define-key evil-normal-state-map (kbd "C-j H") 'evil-window-vsplit)
+  (define-key evil-normal-state-map (kbd "C-j V") 'evil-window-split)
 
-  ;; move-through windows
-  (define-key evil-normal-state-map (kbd "C-j")
-    (lambda () (interactive) (other-window 1)))
-  (define-key global-map (kbd "C-j")
-    (lambda () (interactive) (other-window 1)))
+  (define-key evil-normal-state-map (kbd "C-j j") 'evil-window-down)
+  (define-key evil-normal-state-map (kbd "C-j k") 'evil-window-up)
+  (define-key evil-normal-state-map (kbd "C-j h") 'evil-window-left)
+  (define-key evil-normal-state-map (kbd "C-j l") 'evil-window-right)
 
-  (define-key evil-normal-state-map (kbd "C-k")
-    (lambda () (interactive) (other-window -1)))
-  (define-key global-map (kbd "C-k")
-    (lambda () (interactive) (other-window -1)))
+  (define-key evil-normal-state-map (kbd "C-j M-j") 'evil-window-increase-width)
+  (define-key evil-normal-state-map (kbd "C-j M-k") 'evil-window-decrease-width)
+  (define-key evil-normal-state-map (kbd "C-j M-h") 'evil-window-increase-height)
+  (define-key evil-normal-state-map (kbd "C-j M-l") 'evil-window-decrease-height)
 
-  ;; move-in occur mode
   (evil-add-hjkl-bindings occur-mode-map 'emacs
     (kbd "/")       'evil-search-forward
     (kbd "n")       'evil-search-next
@@ -91,8 +89,6 @@
   :ensure t
   :after magit evil)
 
-
-;; Very useful mode, show balancing parens.
 (setq dired-listing-switches "-lah")
 
 (use-package smex
