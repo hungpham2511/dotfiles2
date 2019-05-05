@@ -46,6 +46,7 @@
   (define-key evil-normal-state-map (kbd "C-j k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-j h") 'evil-window-left)
   (define-key evil-normal-state-map (kbd "C-j l") 'evil-window-right)
+  (define-key evil-normal-state-map (kbd "C-j o") 'other-window)
 
   (define-key evil-normal-state-map (kbd "C-j M-j") 'evil-window-increase-width)
   (define-key evil-normal-state-map (kbd "C-j M-k") 'evil-window-decrease-width)
