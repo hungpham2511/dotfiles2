@@ -63,7 +63,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -107,8 +107,7 @@ function git-autoupdate {
 
 # Research code project
 export PYTHONPATH="${PYTHONPATH}:${HOME}/git/robotic-CRI"
-# quick compilation
-alias gccp='sh /home/hung/git/robotic-CRI/cpp-learn/gccp'
+
 
 # ROS
 if [ -f "/opt/ros/kinetic/setup.zsh" ]
@@ -118,15 +117,19 @@ else
     echo "warn: Unable to find ROS."
 fi
 
-function source_catkin_ws {
+function source-catkin-ws {
     echo "sourcing: $HOME/$1/devel/setup.zsh"
     source $HOME/$1/devel/setup.zsh
 }
 
-# source_catkin_ws catkin_ws
+alias ga=git-autoupdate
+alias sc='source-catkin-ws catkin_ws && workon ros'
+alias sus='systemctl suspend'
+alias gccp='sh /home/hung/git/robotic-CRI/cpp-learn/gccp'
 
 # Virtual ENVs
 export WORKON_HOME=~/Envs
+
 # If this does not work, try the below command instead
 if [ -f "/usr/local/bin/virtualenvwrapper.sh" ]
 then

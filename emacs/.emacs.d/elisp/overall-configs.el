@@ -37,6 +37,7 @@
     (evil-scroll-up 0))
 
   ;; key binding in evil and global-map
+  (global-unset-key (kbd "C-j"))
   (define-key evil-normal-state-map (kbd "C-i") 'scroll-up-half-page)
   (define-key evil-normal-state-map (kbd "C-d") 'scroll-down-half-page)
   (define-key evil-normal-state-map (kbd "C-j H") 'evil-window-vsplit)
@@ -47,6 +48,14 @@
   (define-key evil-normal-state-map (kbd "C-j h") 'evil-window-left)
   (define-key evil-normal-state-map (kbd "C-j l") 'evil-window-right)
   (define-key evil-normal-state-map (kbd "C-j o") 'other-window)
+
+  ;; need to define keys in global map because sometimes
+  ;; evil-normal-state-map is not enough.
+  (define-key global-map (kbd "C-j j") 'evil-window-down)
+  (define-key global-map (kbd "C-j k") 'evil-window-up)
+  (define-key global-map (kbd "C-j h") 'evil-window-left)
+  (define-key global-map (kbd "C-j l") 'evil-window-right)
+  (define-key global-map (kbd "C-j o") 'other-window)
 
   (define-key evil-normal-state-map (kbd "C-j M-j") 'evil-window-increase-width)
   (define-key evil-normal-state-map (kbd "C-j M-k") 'evil-window-decrease-width)
