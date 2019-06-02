@@ -42,6 +42,7 @@
   (define-key evil-normal-state-map (kbd "C-d") 'scroll-down-half-page)
   (define-key evil-normal-state-map (kbd "C-j H") 'evil-window-vsplit)
   (define-key evil-normal-state-map (kbd "C-j V") 'evil-window-split)
+  (define-key evil-normal-state-map (kbd "C-j K") 'evil-window-delete)
 
   (define-key evil-normal-state-map (kbd "C-j j") 'evil-window-down)
   (define-key evil-normal-state-map (kbd "C-j k") 'evil-window-up)
