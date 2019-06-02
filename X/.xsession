@@ -13,6 +13,9 @@ ibus-daemon &
 nm-applet &
 dropbox start &
 
+emacs &
+x-terminal-emulator &
+
 gnome-settings-daemon &
 gnome-keyring-daemon &
 
