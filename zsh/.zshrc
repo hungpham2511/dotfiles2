@@ -110,14 +110,15 @@ export PYTHONPATH="${PYTHONPATH}:${HOME}/git/robotic-CRI"
 
 
 # ROS
-if [ -f "/opt/ros/kinetic/setup.zsh" ]
-then
-    source /opt/ros/kinetic/setup.zsh
-else
-    echo "warn: Unable to find ROS."
-fi
+
 
 function source-catkin-ws {
+    if [ -f "/opt/ros/kinetic/setup.zsh" ]
+    then
+	source /opt/ros/kinetic/setup.zsh
+    else
+	echo "warn: Unable to find ROS."
+    fi
     echo "sourcing: $HOME/$1/devel/setup.zsh"
     source $HOME/$1/devel/setup.zsh
 }

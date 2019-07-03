@@ -13,11 +13,6 @@
 ;; directory containing my personal elisp scripts
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 
-(unless (package-installed-p 'diminish)
-  (package-refresh-contents)
-  (package-install 'diminish))
-
-
 ;; Install 'use-package' if necessary
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -31,20 +26,17 @@
 
 ;; Configure core configurations: evil, magit, etc
 (use-package overall-configs
-  :load-path "~/.emacs.d/elisp"
-  :demand)
+  :load-path "~/.emacs.d/elisp" :demand)
 
 ;; Configure appearances
 (use-package theme
   :load-path "~/.emacs.d/elisp"
-  :init
-  (message "Configure appearances"))
+  :init (message "Configure appearances"))
 
 ;; setup stage 3: python configuration
 (use-package jedi-core
   :ensure t
-  :config
-  (jedi:install-server))
+  :config (jedi:install-server))
 
 (use-package python-configs
   :load-path "~/.emacs.d/elisp"
