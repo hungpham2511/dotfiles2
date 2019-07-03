@@ -150,5 +150,5 @@ then
 else
     echo "warn: Unable to find openrave."
 fi
-export PATH=$PATH:/usr/local/go/bin
 
+export PATH=$PATH:/usr/local/go/bin
