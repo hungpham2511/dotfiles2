@@ -1,7 +1,7 @@
 # provision a new machine
 1. Install ubuntu 16.04 or 18.04
+2. Clone this repository with `git clone https://github.com/hungpham2511/dotfiles2 --recursive`
 2. Run `provision-machine.sh`
-3. Configure `awesomewm`
 
 # to run cron job (test)
 
