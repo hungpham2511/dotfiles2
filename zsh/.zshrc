@@ -125,9 +125,8 @@ function source-catkin-ws {
 
 alias ga=git-autoupdate
 alias sc='source-catkin-ws catkin_ws && workon ros'
-alias sus='systemctl suspend'
+alias sus='xscreensaver-command -lock && systemctl suspend'
 alias gccp='sh /home/hung/git/robotic-CRI/cpp-learn/gccp'
-
 alias lapp='roslaunch optics_handling_app'
 
 # Virtual ENVs

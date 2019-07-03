@@ -14,6 +14,7 @@
 
 setxkbmap -option ctrl:nocaps  # Map control
 
+xscreensaver &
 ibus-daemon &
 nm-applet &
 dropbox start &

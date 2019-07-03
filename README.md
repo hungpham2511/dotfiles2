@@ -3,6 +3,10 @@
 2. Clone this repository with `git clone https://github.com/hungpham2511/dotfiles2 --recursive`
 2. Run `provision-machine.sh`
 
+# lock screen and suspend
+
+Install `xscreensaver` to activate lock screen.
+
 # to run cron job (test)
 
 edit crontab 
