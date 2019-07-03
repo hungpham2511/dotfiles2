@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
-# /etc/X11/xinit/xinitrc
-#
-# global xinitrc file, used by all X sessions started by xinit (startx)
-
-# invoke global X session script
-# . /etc/X11/Xsession
+# To use this file, create /usr/share/xsessions/awesome.desktop with
+# the below lines:
+# 
+#  [Desktop Entry]
+#  Name=awesomeDesktop
+#  Comment=A Desktop environment with Awesome Window Manager
+#  TryExec=/etc/X11/Xsession
+#  Exec=/etc/X11/Xsession
+#  Type=Application
+#  Icon=/usr/share/pixmaps/awesome.xpm
+#  Keywords=Window manager
 
 setxkbmap -option ctrl:nocaps  # Map control
 
