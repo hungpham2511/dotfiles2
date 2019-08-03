@@ -7,6 +7,17 @@
 
 Install `xscreensaver` to activate lock screen.
 
+# backlight
+
+For controlling backlight, I use this utility: `http://haikarainen.github.io/light/`
+
+Some simple command
+
+``` shell
+light -A 10  # increase backlight
+light -U 10  # decrease backlight
+```
+
 # to run cron job (test)
 
 edit crontab 
