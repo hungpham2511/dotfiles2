@@ -14,6 +14,7 @@
   :defer
   :config
   (message "Configure gruvbox")
+  ;; (load-theme 'gri)
   )
 
 (use-package solarized-theme
@@ -32,24 +33,30 @@
   :ensure t
   :defer
   :config
-  (message "Configure kaolin")
-  )
+  (message "Configure kaolin"))
 
 (use-package zenburn-theme
   :ensure t
-  :defer
+  :demand
   :config
   (message "Configure zenburn")
+  (load-theme 'zenburn)
   )
 
 (use-package doom-themes
   :ensure t
-  :demand
+  :defer
   :config
   (message "Configure doom-themes")
-  (load-theme 'doom-one t)
   (doom-themes-org-config)
+  ;; (load-theme 'doom-one t)
+  ;; (load-theme 'doom-Iosvkem t)
   ;; (load-theme 'doom-city-lights t)
+  )
+
+(use-package darktooth-theme
+  :ensure t
+  :defer
   )
 
 (provide 'theme)

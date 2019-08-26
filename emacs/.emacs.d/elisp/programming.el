@@ -14,6 +14,9 @@
   :config
   (add-hook 'js-mode-hook 'js2-minor-mode))
 
+(use-package rust-mode
+  :ensure t)
+
 (use-package flycheck
   :ensure t
   :demand

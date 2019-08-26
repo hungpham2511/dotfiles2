@@ -52,8 +52,9 @@ gb_colors['faded_orange']   = '#af3a03'
 
 -- {{{ Main
 local theme = {}
--- theme.wallpaper = "/home/hung/Dropbox/img/img_1304_16268920765_o.jpg"
-theme.wallpaper = "/home/hung/Dropbox/img/Solar.png"
+-- theme.wallpaper = "/home/hung/Dropbox/img/tam-jumpsuit.jpg"
+-- theme.wallpaper = "/home/hung/Dropbox/img/Solar.png"
+theme.wallpaper = "/home/hung/Dropbox/img/zenburn-background.png"
 -- theme.wallpaper = themes_path.."default/background.png"
 -- }}}
 

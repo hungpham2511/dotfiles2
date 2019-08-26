@@ -66,11 +66,13 @@ source $ZSH/oh-my-zsh.sh
 export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='mvim'
+fi
+
+export VISUAl='vim'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -129,6 +131,9 @@ alias sus='xscreensaver-command -lock && systemctl suspend'
 alias gccp='sh /home/hung/git/robotic-CRI/cpp-learn/gccp'
 alias lapp='roslaunch optics_handling_app'
 
+alias ddev='docker-compose -f docker-compose-dev.yaml up -d'
+alias ddwn='docker-compose -f docker-compose-dev.yaml down'
+
 # Virtual ENVs
 export WORKON_HOME=~/Envs
 
@@ -150,4 +155,10 @@ else
     echo "warn: Unable to find openrave."
 fi
 
+# configure go ################################################################
 export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/projects/go-ws
+export PATH=$PATH:$(go env GOPATH)/bin
+
+# configure rust ##############################################################
+export PATH=$HOME/.cargo/bin:$PATH
