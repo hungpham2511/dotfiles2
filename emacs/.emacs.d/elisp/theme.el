@@ -9,6 +9,11 @@
 (global-hl-line-mode)			; highlight current line
 (global-set-key (kbd "C-c e") 'eval-region)
 
+(use-package dracula-theme
+  :ensure t
+  :demand
+  )
+
 (use-package gruvbox-theme
   :ensure t
   :defer
@@ -18,7 +23,6 @@
   )
 
 (use-package solarized-theme
-  :ensure t
   :defer
   :config
   (message "Configure solarized")
@@ -37,10 +41,10 @@
 
 (use-package zenburn-theme
   :ensure t
-  :demand
+  :defer
   :config
   (message "Configure zenburn")
-  (load-theme 'zenburn)
+  ;; (load-theme 'zenburn)
   )
 
 (use-package doom-themes
@@ -57,6 +61,6 @@
 (use-package darktooth-theme
   :ensure t
   :defer
-  )
+  (load-theme 'darktooth))
 
 (provide 'theme)

@@ -22,7 +22,12 @@
   :demand
   :init (global-flycheck-mode)
   :config
-  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11"))))
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
+
+  (setq flycheck-python-flake8-executable "/home/hung/Envs/p3/bin/python")
+  (setq flycheck-flake8rc "/home/hung/dotfiles2/.flake8rc")
+  
+  )
 
 (use-package yasnippet-snippets
   :ensure t

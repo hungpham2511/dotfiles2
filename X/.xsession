@@ -21,6 +21,7 @@ dropbox start &
 
 emacs &
 x-terminal-emulator &
+slack &
 
 gnome-settings-daemon &
 gnome-keyring-daemon &

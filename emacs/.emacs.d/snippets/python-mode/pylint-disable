@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
 # name: Insert Pylint comment for disable features
-# key: ltd
+# key: lintd
 # --
  # pylint: disable=${1:unused-import}
