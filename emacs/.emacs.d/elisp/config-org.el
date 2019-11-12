@@ -39,6 +39,7 @@
     (setq org-agenda-files (quote ("~/org/papers.org"
 				   "~/org/research.org"
 				   "~/org/study.org"
+				   "~/org/eureka.org"
 				   "~/org/play.org"
 				   "~/org/test.org"
 				   "~/org/refile.org")))
@@ -55,11 +56,11 @@
     (setq org-agenda-custom-commands
 	  '(
 	    ("j" "(new) work agenda"
-	     ((tags "+project/-DONE-someday-probnever") ;; Select entries with :project: tag and not :DONE: tag
+	     ((tags "+project/-DONE-someday-probnever")
 	      (stuck "")
 	      (agenda "" )
 	      (tags-todo "+PRIORITY=\"A\"/TODO")
-	      (tags-todo "-PRIORITY=\"A\"-unsrt/TODO")
+	      (tags-todo "-PRIORITY=\"A\"-unsrt-habit/TODO")
 	      (tags-todo "+unsrt/TODO")
 	      (todo "WaitingFor")
 	      )

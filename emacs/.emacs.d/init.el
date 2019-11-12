@@ -90,7 +90,9 @@
 	 :map org-mode-map
 	 ("C-c C-q" . counsel-org-tag-2))
   :config
-  (setq browse-url-browser-function 'browse-url-chrome))
+  (setq browse-url-browser-function 'browse-url-chrome)
+  (setq org-habit-preceding-days 7)
+  )
 
 ;; Programming/modes installation
 (use-package programming
