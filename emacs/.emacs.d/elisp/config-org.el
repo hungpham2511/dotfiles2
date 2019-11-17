@@ -12,17 +12,18 @@
 	 ("C-c x" . org-capture)
 	 ("C-c C-x C-j" . org-clock-goto)
 	 :map org-mode-map
-	 ("C-c c" . org-export-latex-custom))
+	 ("C-c c" . org-export-latex-custom)
+	 :map org-agenda-mode-map
+	 ("j" . org-agenda-next-item)
+	 ("k" . org-agenda-previous-item)
+	 )
+
   :config
   (progn
-    (message "Start configure org-mode")
-    ;; add hook for company-ispell
-    
     (add-hook 'org-mode-hook
 	      (lambda ()
 		(make-local-variable 'company-backends)
-		(add-to-list 'company-backends 'company-ispell)
-	      ))
+		(add-to-list 'company-backends 'company-ispell)))
 
     (add-hook 'org-agenda-mode-hook (lambda ()
 				      (message "org-mode hook")
@@ -35,16 +36,7 @@
     ;; setup image
     (setq org-image-actual-width 600)
     (setq org-agenda-search-view-always-boolean t)
-
-    (setq org-agenda-files (quote ("~/org/papers.org"
-				   "~/org/research.org"
-				   "~/org/study.org"
-				   "~/org/eureka.org"
-				   "~/org/play.org"
-				   "~/org/test.org"
-				   "~/org/refile.org")))
-
-    
+   
     ;; (setcdr (assoc "\\.pdf\\'" org-file-apps) "zathura %s")
     (setcdr (assoc "\\.x?html?\\'" org-file-apps) "google-chrome %s")
     (setcdr (assoc "\\.pdf\\'" org-file-apps) (lambda (file link) (org-pdfview-open link)))
@@ -59,17 +51,21 @@
 	     ((tags "+project/-DONE-someday-probnever")
 	      (stuck "")
 	      (agenda "" )
-	      (tags-todo "+PRIORITY=\"A\"/TODO")
-	      (tags-todo "-PRIORITY=\"A\"-unsrt-habit/TODO")
-	      (tags-todo "+unsrt/TODO")
+	      (tags "+inprogress")
+	      (tags "-unsrt-habit-inprogress/TODO"
+			 ((org-agenda-sorting-strategy
+			   '((tags priority-down category-up )))))
+	      (tags "+unsrt+TODO=\"TODO\"|+refile")
 	      (todo "WaitingFor")
 	      )
+
 	     ;; Custom setting for this command
 	     ((org-agenda-span 'day)
 	      (org-agenda-files '("~/org/research.org"
 				  "~/org/refile.org"
 				  "~/org/study.org"
 				  "~/org/papers.org"
+				  "~/org/refile-phone.org"
 				  "~/org/people.org"
 				  "~/org/test.org"))
 	      (org-agenda-sorting-strategy
@@ -79,8 +75,9 @@
 	     	(tags effort-up category-up priority-down)
 	     	;; (search category-keep)
 		)))
-	     ("~/Dropbox/agenda.html")
-
+	     ("~/Dropbox/agenda.html"))
+	    ("g" "test agenda"
+	     ((tags "+refile|+unsrt+TODO=\"TODO\""))
 	     )
 	    ("n" "work agenda" ;; Description
 	     ;; Commands
@@ -124,7 +121,6 @@
     ;; (setq org-stuck-projects
     ;;       '("+project/-someday-DONE" ("workingon" "WaitingFor" "TODO" "pTODO")
     ;;       nil "SCHEDULED:\\|DEADLINE:"))
-
     (setq org-stuck-projects
 	  '("+project/-someday-DONE-probnever" ("workingon" "WaitingFor" "TODO" "pTODO")
 	    nil ""))
@@ -154,13 +150,15 @@
     (setq org-clock-into-drawer t)
     (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
     (setq org-default-notes-file "~/org/refile.org")
-    (setq org-agenda-files '("~/org/research.org"
-			     "~/org/refile.org"
-			     "~/org/study.org"
-			     "~/org/people.org"
-			     "~/org/test.org"))
 
-    ;;if the variable org-export-use-babel is nil, header settings
+    (setq org-agenda-files (quote ("~/org/papers.org"
+				   "~/org/research.org"
+				   "~/org/study.org"
+				   "~/org/test.org"
+				   "~/org/refile.org"
+				   "~/org/refile-phone.org")))
+
+     ;;if the variable org-export-use-babel is nil, header settings
     ;;will not be considered. Thus this variable need to be True.
     (setq org-export-use-babel t)
     ;; The above setting is commented as it causes some confusion in

@@ -14,8 +14,48 @@
   :config
   (add-hook 'js-mode-hook 'js2-minor-mode))
 
+;; reference for setup rust mode
+;; https://www.reddit.com/r/rust/comments/a3da5g/my_entire_emacs_config_for_rust_in_fewer_than_20/
+(use-package lsp-mode
+  :ensure t
+  :hook (rust-mode . lsp)
+  :hook (python-mode . lsp)
+  :commands lsp
+  :config
+  (require 'lsp-clients)
+  (setq lsp-prefer-flymake nil)
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection "/home/hung/Envs/p2/bin/pyls")
+		    :major-modes '(python-mode)
+		    :server-id 'pyls))
+  )
+
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode :ensure t)
+(use-package company-lsp :commands company-lsp :ensure t)
+
+;; Add keybindings for interacting with Cargo
+(use-package cargo
+  :ensure t
+  :hook (rust-mode . cargo-minor-mode))
+
 (use-package rust-mode
-  :ensure t)
+  :ensure t
+  :config
+  (setq rust-format-on-save t)
+  )
+
+(use-package flycheck-rust
+  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+;; finish setting up rust for emacs
+
+;; (use-package lsp-python-ms
+;;   :ensure t
+;;   :hook (python-mode . (lambda ()
+;;                           (require 'lsp-python-ms)
+;;                           (lsp))))  ; or lsp-deferred
 
 (use-package flycheck
   :ensure t
