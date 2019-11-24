@@ -1,9 +1,15 @@
 (use-package org-habit
-  :after org)
+  :after org
+  :config
+  (setq org-habit-following-days 3)
+  (setq org-habit-preceding-days 7)
+  (setq org-habit-graph-column 70)
+  )
 
 (use-package org-pdfview
   :after org
   :ensure t)
+
 
 (use-package org
   :ensure org-plus-contrib
@@ -13,17 +19,15 @@
 	 ("C-c C-x C-j" . org-clock-goto)
 	 :map org-mode-map
 	 ("C-c c" . org-export-latex-custom)
+	 ("C-c C-p" . org-previous-visible-heading)
 	 :map org-agenda-mode-map
 	 ("j" . org-agenda-next-item)
 	 ("k" . org-agenda-previous-item)
 	 )
-
   :config
   (progn
-    (add-hook 'org-mode-hook
-	      (lambda ()
-		(make-local-variable 'company-backends)
-		(add-to-list 'company-backends 'company-ispell)))
+    (unbind-key "C-c C-p" org-mode-map)
+    (unbind-key "C-c C-p" org-agenda-mode-map)
 
     (add-hook 'org-agenda-mode-hook (lambda ()
 				      (message "org-mode hook")
@@ -51,11 +55,11 @@
 	     ((tags "+project/-DONE-someday-probnever")
 	      (stuck "")
 	      (agenda "" )
-	      (tags "+inprogress")
-	      (tags "-unsrt-habit-inprogress/TODO"
+	      (tags "+inprogress/TODO")
+	      (tags "-backlog-habit-inprogress/TODO"
 			 ((org-agenda-sorting-strategy
 			   '((tags priority-down category-up )))))
-	      (tags "+unsrt+TODO=\"TODO\"|+refile")
+	      (tags "+backlog+TODO=\"TODO\"|+refile")
 	      (todo "WaitingFor")
 	      )
 
@@ -72,12 +76,12 @@
 	      '(
 		(agenda habit-down time-up priority-down category-down)
 	     	(todo habit-up category-up priority-down tag-down)
-	     	(tags effort-up category-up priority-down)
+	     	(tags effort-up priority-down category-up)
 	     	;; (search category-keep)
 		)))
 	     ("~/Dropbox/agenda.html"))
 	    ("g" "test agenda"
-	     ((tags "+refile|+unsrt+TODO=\"TODO\""))
+	     ((tags "+refile|+backlog+TODO=\"TODO\""))
 	     )
 	    ("n" "work agenda" ;; Description
 	     ;; Commands
@@ -129,11 +133,13 @@
     ;; TODO: Do I need all these templates?
     (setq org-capture-templates
 	  (quote (("t" "todo" entry (file "~/org/refile.org")
-		   "* TODO %? :unsrt:\n%U\n%a\n")
+		   "* TODO %? :backlog:\n%U\n")
 		  ("n" "note" entry (file "~/org/refile.org")
 		   "* %? :NOTE:\n%U\n%a\n")
 		  ("j" "Journal" entry (file+datetree "~/org/journal.org")
 		   "* %?\n%U\n")
+		  ("p" "New paper" plain (file "~/Dropbox/BookandPaper/biblio/library.bib") "@comment Entry added with org-capture\n\n%?")
+
 		  ("m" "Meeting" entry (file "~/org/refile.org")
 		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
 		  ("a" "Mail to" entry (file "~/org/refile.org")

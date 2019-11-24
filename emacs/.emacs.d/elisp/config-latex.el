@@ -57,7 +57,10 @@
 
 (use-package ivy-bibtex
   :ensure t
-  :bind (("<f2>" . ivy-bibtex))
+  :bind (
+	 ("<f2>" . ivy-bibtex)
+	 ("C-c C-p" . ivy-bibtex)
+	 )
   :config
   (progn
     (setq ivy-re-builders-alist

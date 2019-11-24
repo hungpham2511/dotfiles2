@@ -32,8 +32,12 @@
 (use-package theme
   :load-path "~/.emacs.d/elisp"
   :init (message "Configure appearances")
-  :config
+  )
 
+(use-package test-mod
+  :load-path "~/.emacs.d/elisp"
+  :config
+  (message "Starting test module")
   )
 
 					; A for configuring the tree ;;;;;;;;;;
@@ -41,26 +45,22 @@
   :config
   (setq neo-window-fixed-size nil)
   (setq neo-window-width 40)
-  ;; key binding
-  (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-  (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
-  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-  (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
-  (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
-  (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
-  (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
-  (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle))
 
-(use-package projectile
-  :ensure t
-  :config
-  (define-key projectile-mode-map (kbd "s-,") 'projectile-command-map)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (setq projectile-indexing-method 'hybrid)
-  (setq projectile-completion-system 'ivy)
-  (projectile-mode +1)
+  (evil-define-key 'normal neotree-mode-map
+    (kbd "TAB") 'neotree-enter
+    (kbd "RET") 'neotree-enter
+    (kbd "SPC") 'neotree-quick-look
+    "q" 'neotree-hide
+    "j" 'neotree-next-line
+    "k" 'neotree-previous-line
+    "H" 'neotree-hidden-file-toggle
+    "g" 'neotree-refresh
+    "A" 'neotree-stretch-toggle
+    "C" 'neotree-change-root)
   )
+
+
+
 
 ;; setup stage 3: python configuration
 (use-package jedi-core
@@ -89,24 +89,27 @@
 	 ("<f7>" . org-random-entry-STUDY)
 	 ("<f1>" . find-dired-dropbox-iname)
 	 :map org-mode-map
-	 ("C-c C-q" . counsel-org-tag-2))
+	 ("C-c C-q" . counsel-org-tag-2)
+	 ("C-c C-p" . org-previous-visible-heading)
+	 )
   :config
   (setq browse-url-browser-function 'browse-url-chrome)
-  (setq org-habit-preceding-days 7)
   )
 
 ;; Programming/modes installation
 (use-package programming
   :load-path "~/.emacs.d/elisp"
   :demand
-  :bind (
-	 :map emacs-lisp-mode-map
-	 ("C-c C-c" . eval-buffer))
+  :bind (:map emacs-lisp-mode-map
+	      ("C-c C-c" . eval-buffer))
   )
 
 (use-package config-latex
   :load-path "~/.emacs.d/elisp"
-  :demand)
+  :bind (:map evil-normal-state-map
+	      ("-" . ivy-bibtex))
+  :demand
+  )
 
 (use-package config-org
   :load-path "~/.emacs.d/elisp"
@@ -118,6 +121,19 @@
   :config
   (evil-define-key 'normal bibtex-mode-map (kbd "SPC") 'org-bibtex-generate-org-entry)
   (evil-define-key 'normal org-mode-map (kbd "SPC") 'org-sort-by-year))
+
+(use-package projectile
+  :ensure t
+  :after org
+  :bind (:map evil-motion-state-map
+	      ("s-," . projectile-command-map)
+	      :map org-agenda-mode-map
+	      ("s-," . projectile-command-map)
+	      )
+  :config (setq projectile-indexing-method 'hybrid
+		projectile-completion-system 'ivy)
+  (projectile-mode +1)
+  )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -169,7 +185,7 @@
 		 ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(package-selected-packages
    (quote
-    (smart-mode-line lsp-python-ms lsp-ui cargo company-lsp lsp-mode flycheck-rust ejson-mode wgrep dracula-theme typescript bash-completion neotree darktooth-theme rust-mode cpp-configs json-mode jsx-mode arduino-mode go-mode cider clojure-mode evil-nerd-commenter js2-mode slime py-autopep8 dockerfile-mode docker all-the-icons ox-reveal reveal-ox ivy-bibtex irony-eldoc cmake-mode magit gruvbox-theme docker-tramp scad-mode plantuml-mode haskell-mode ein writeroom-mode matlab-mode cython-mode ggtags all-the-icons-dired dired-sidebar ob-blockdiag ob-ipython my-misc-config company-anaconda anaconda-mode overall_configurations overall-configurations org-element smartparens cdlatex hydra ess lua-mode yasnippet-snippets company-mode company-jedi markdown-mode yaml-mode paredit evil-magit company-irony irony traad pymacs projectile rebecca-theme solarized-theme org-pdfview highlight-symbol smex avy use-package)))
+    (prettier-js rjsx-mode web-mode smart-mode-line lsp-python-ms lsp-ui cargo company-lsp lsp-mode flycheck-rust ejson-mode wgrep dracula-theme typescript bash-completion neotree darktooth-theme rust-mode cpp-configs json-mode jsx-mode arduino-mode go-mode cider clojure-mode evil-nerd-commenter js2-mode slime py-autopep8 dockerfile-mode docker all-the-icons ox-reveal reveal-ox ivy-bibtex irony-eldoc cmake-mode magit gruvbox-theme docker-tramp scad-mode plantuml-mode haskell-mode ein writeroom-mode matlab-mode cython-mode ggtags all-the-icons-dired dired-sidebar ob-blockdiag ob-ipython my-misc-config company-anaconda anaconda-mode overall_configurations overall-configurations org-element smartparens cdlatex hydra ess lua-mode yasnippet-snippets company-mode company-jedi markdown-mode yaml-mode paredit evil-magit company-irony irony traad pymacs projectile rebecca-theme solarized-theme org-pdfview highlight-symbol smex avy use-package)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))

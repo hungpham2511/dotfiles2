@@ -9,10 +9,16 @@
 (use-package cider
   :ensure t)
 
-(use-package js2-mode
+;; Editting Javascript
+(use-package rjsx-mode
   :ensure t
   :config
-  (add-hook 'js-mode-hook 'js2-minor-mode))
+  (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+  )
+
+(use-package prettier-js
+  :ensure t
+  :hook (rjsx-mode . prettier-js-mode))
 
 ;; reference for setup rust mode
 ;; https://www.reddit.com/r/rust/comments/a3da5g/my_entire_emacs_config_for_rust_in_fewer_than_20/
@@ -25,7 +31,7 @@
   (require 'lsp-clients)
   (setq lsp-prefer-flymake nil)
   (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection "/home/hung/Envs/p2/bin/pyls")
+   (make-lsp-client :new-connection (lsp-stdio-connection "/home/hung/Envs/p3/bin/pyls")
 		    :major-modes '(python-mode)
 		    :server-id 'pyls))
   )
