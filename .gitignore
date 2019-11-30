@@ -1,0 +1,10 @@
+# Temporary files
+*~
+
+# Python
+*.pyc
+
+emacs/.emacs.d/elpa/*
+emacs/.emacs.d/.python-environments
+emacs/.emacs.d/mspyls
+emacs/.emacs.d/session.*
