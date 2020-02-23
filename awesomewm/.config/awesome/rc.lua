@@ -400,7 +400,7 @@ globalkeys = awful.util.table.join(
    awful.key({ modkey, }, "g", function () awful.spawn('google-chrome') end,
       {description = "open chrome", group = "launcher"}),
 
-   awful.key({ modkey, }, "l", function () awful.spawn('slock') end,
+   awful.key({ modkey, }, "l", function () awful.spawn('xscreensaver-command -lock') end,
       {description = "lock screen", group = "utility"}),
 
    awful.key({ modkey, "Control"}, "k", function ()
