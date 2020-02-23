@@ -1,6 +1,6 @@
 ;; pdf-tools for viewing pdf in emacs
 (use-package pdf-tools
-  :ensure t
+  :straight t
   :bind (:map pdf-view-mode-map
 	      ("k" . pdf-view-scroll-down-or-previous-page)
 	      ("j" . pdf-view-scroll-up-or-next-page)
@@ -10,7 +10,7 @@
   :config (pdf-tools-install))
 
 (use-package tex
-  :ensure auctex
+  :straight auctex
   :config
   (progn
     (setq TeX-auto-save t)
@@ -53,10 +53,10 @@
   (setq reftex-plug-into-AUCTeX t))
 
 (use-package cdlatex
-  :ensure t)
+  :straight t)
 
 (use-package ivy-bibtex
-  :ensure t
+  :straight t
   :bind (
 	 ("<f2>" . ivy-bibtex)
 	 ("C-c C-p" . ivy-bibtex)

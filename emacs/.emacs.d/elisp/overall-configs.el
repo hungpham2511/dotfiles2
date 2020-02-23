@@ -6,7 +6,7 @@
 ;; System configuraitons
 
 (use-package ag
-  :ensure t
+  :straight t
   :defer t
   :config (setq ag-highlight-search t)
   :bind ("M-s 0" . ag)
@@ -14,12 +14,12 @@
 
 ;; magit: the git porcelain
 (use-package magit
-  :ensure t
+  :straight t
   :bind ("C-x C-z" . magit-status))
 
 ;; Install evil and its friends
 (use-package evil
-  :ensure t
+  :straight t
   :bind (:map evil-normal-state-map
 	      ("C-f" . evil-avy-goto-char))
   :demand
@@ -74,13 +74,13 @@
 
 (use-package evil-nerd-commenter
   :after evil
-  :ensure t
+  :straight t
   :config
   ;; Evilnc keys must set up before org-capture
   (evilnc-default-hotkeys))
 
 (use-package evil-surround
-  :ensure t
+  :straight t
   :after evil
   :config
   (global-evil-surround-mode 1)
@@ -89,7 +89,7 @@
 	    (lambda () (push '(?m . ("$" . "$")) evil-surround-pairs-alist))))
 
 (use-package key-chord
-  :ensure t
+  :straight t
   :after evil
   :config
   (key-chord-mode t)
@@ -97,17 +97,17 @@
   (key-chord-define evil-insert-state-map "jk" 'evil-force-normal-state))
 
 (use-package evil-magit
-  :ensure t
+  :straight t
   :after magit evil)
 
 (setq dired-listing-switches "-lah")
 
 (use-package smex
-  :ensure t)
+  :straight t)
 
 ;; Nice switching windows
 (use-package counsel
-  :ensure t
+  :straight t
   :demand
   :after smex
   :bind (("C-s" . swiper)
@@ -118,7 +118,7 @@
 
 (use-package ivy
   :diminish t
-  :ensure t
+  :straight t
   :bind (("C-x C-c" . ivy-switch-buffer)
 	 ("C-c C-r" . ivy-resume))
   :config

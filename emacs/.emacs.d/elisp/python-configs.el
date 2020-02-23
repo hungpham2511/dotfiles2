@@ -19,16 +19,17 @@
 	      (add-to-list 'company-backends 'company-jedi))
 	    (add-hook 'python-mode-hook 'my/python-mode-hook)
 	    (add-hook 'python-mode-hook 'jedi:setup)
-	    (setq jedi:complete-on-dot t)))
+	    (setq jedi:complete-on-dot t))
+  :defer)
 
-(condition-case nil
-    (progn
-      (setq venv-location "~/Envs/")
-      (venv-workon "ros"))
-  (error nil))
+;; (condition-case nil
+;;     (progn
+;;       (setq venv-location "~/Envs/")
+;;       (venv-workon "ros"))
+;;   (error nil))
 
 (use-package cython-mode
-  :ensure t)
+  :straight t)
 
 ;; jedi configuration, main use for python document lookup. work quite
 ;; well in general

@@ -8,11 +8,11 @@
 
 (use-package org-pdfview
   :after org
-  :ensure t)
+  :straight t)
 
 
 (use-package org
-  :ensure org-plus-contrib
+  :straight org-plus-contrib
   :bind (("C-c l" . org-store-link)
 	 ("C-c a" . org-agenda)
 	 ("C-c x" . org-capture)
@@ -29,9 +29,11 @@
     (unbind-key "C-c C-p" org-mode-map)
     (unbind-key "C-c C-p" org-agenda-mode-map)
 
-    (add-hook 'org-agenda-mode-hook (lambda ()
-				      (message "org-mode hook")
-				      ))
+    (setq org-startup-folded nil)
+    (setq org-startup-indented t)
+
+    ;; Configure org-babel to generate the correct stuffs.
+    (setq org-structure-template-alist `(("s" . "src")))
 
     ;; start org-agenda in another window, i.e. do not destroy my window layout
     ;; https://stackoverflow.com/questions/10635989/emacs-org-agenda-list-destroy-my-windows-splits
@@ -65,13 +67,7 @@
 
 	     ;; Custom setting for this command
 	     ((org-agenda-span 'day)
-	      (org-agenda-files '("~/org/research.org"
-				  "~/org/refile.org"
-				  "~/org/study.org"
-				  "~/org/papers.org"
-				  "~/org/refile-phone.org"
-				  "~/org/people.org"
-				  "~/org/test.org"))
+	      (org-agenda-files '("~/org"))
 	      (org-agenda-sorting-strategy
 	      '(
 		(agenda habit-down time-up priority-down category-down)
@@ -156,13 +152,7 @@
     (setq org-clock-into-drawer t)
     (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
     (setq org-default-notes-file "~/org/refile.org")
-
-    (setq org-agenda-files (quote ("~/org/papers.org"
-				   "~/org/research.org"
-				   "~/org/study.org"
-				   "~/org/test.org"
-				   "~/org/refile.org"
-				   "~/org/refile-phone.org")))
+    (setq org-agenda-files '("~/org/"))
 
      ;;if the variable org-export-use-babel is nil, header settings
     ;;will not be considered. Thus this variable need to be True.
@@ -183,61 +173,44 @@
 
     (add-to-list
      'org-src-lang-modes '("plantuml" . plantuml))
-    (setq org-src-fontify-natively t)))
+    (setq org-src-fontify-natively t))
 
-;; (use-package ox-latex
-;;   :config
-;;   (progn
-;;     (setq org-latex-pdf-process (list "latexmk -pdf %f"))
-;;     (unless (boundp 'org-latex-classes)
-;;       (setq org-latex-classes nil))
-;;     (add-to-list 'org-latex-classes
-;; 		 '("ieeetran"
-;; 		   "\\documentclass{IEEEtran}
-;; \\usepackage{bm}
-;; \\usepackage{mathrsfs}
-;; \\usepackage{siunitx}
-;; \\renewcommand{\\vec}[1]{\\bm{\\mathrm{#1}}}
-;; \\usepackage[ruled, linesnumbered]{algorithm2e}
+  ;; This line is mysteriously needed to get rid of this error:
+  ;; Error running timer ‘org-indent-initialize-agent’: (void-function org-time-add)
+  (org-reload))
 
-;; \\SetKwIF{If}{ElseIf}{Else}{if}{ then}{elif}{else}{}%
-;; \\SetKwFor{For}{for}{ do}{}%
-;; \\SetKwFor{ForEach}{foreach}{ do}{}%
-;; \\SetKwInOut{Input}{Input}%
-;; \\SetKwInOut{Output}{Output}%
-;; \\AlgoDontDisplayBlockMarkers%
-;; \\SetAlgoNoEnd%
-;; \\SetAlgoNoLine%
-;; \\DontPrintSemicolon
+(use-package org-roam
+      :after org
+      :hook 
+      ((org-mode . org-roam-mode)
+       (after-init . org-roam--build-cache-async) ;; optional!
+       )
+      :straight (:host github :repo "jethrokuan/org-roam" :branch "develop")
+      :custom
+      (org-roam-directory "/home/hung/org/")
+      :bind
+      ("C-c n l" . org-roam)
+      ("C-c n t" . org-roam-today)
+      ("C-c n f" . org-roam-find-file)
+      ("C-c n i" . org-roam-insert)
+      ("C-c n g" . org-roam-show-graph))
 
-;; \\usepackage{amsthm}
 
-;; \\theoremstyle{plain}
-;; \\newtheorem{theorem}{Theorem}
-;; \\newtheorem{lem}{Lemma}
-;; \\newtheorem{proposition}{Proposition}
-
-;; "
-
-;; 		   ("\\section{%s}" . "\\section*{%s}")
-;; 		   ("\\subsection{%s}" . "\\subsection*{%s}")
-;; 		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-;; 		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;; 		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
-
-;;     (add-to-list 'org-latex-classes
-;; 		 '("koma-article"
-;; 		   "\\documentclass[draft=false, parskip=half, toc=selection, BCOR=8.25mm, DIV=15]{scrartcl}
-;; \\usepackage{bm}
-;; \\usepackage{mathrsfs}
-;; \\usepackage{siunitx}
-;; \\usepackage{graphicx} 
-;; \\usepackage{tikz}
-;; \\renewcommand{\\vec}[1]{\\bm{\\mathrm{#1}}}"
-;; 		   ("\\section{%s}" . "\\section*{%s}")
-;; 		   ("\\subsection{%s}" . "\\subsection*{%s}")
-;; 		   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-;; 		   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-;; 		   ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+(use-package deft
+  :after org
+  :straight t
+  :bind
+  ("C-c n d" . deft)
+  :custom
+  (deft-recursive t)
+  (deft-use-filter-string-for-filename t)
+  (deft-default-extension "org")
+  (deft-directory "~/org")
+  :config
+  (setq deft-file-naming-rules
+	'((noslash . "-")
+	  (nospace . "-")
+	  (case-fn . downcase)))
+  )
 
 (provide 'config-org)

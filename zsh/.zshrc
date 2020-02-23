@@ -129,6 +129,7 @@ alias ga=git-autoupdate
 alias sc='source-catkin-ws catkin_ws && workon ros'
 alias sus='xscreensaver-command -lock && systemctl suspend'
 alias gccp='sh /home/hung/git/robotic-CRI/cpp-learn/gccp'
+alias gccp2='g++ -pedantic-errors -Wall -std=c++11'
 alias lapp='roslaunch optics_handling_app'
 
 alias ddev='docker-compose -f docker-compose-dev.yaml up -d'
