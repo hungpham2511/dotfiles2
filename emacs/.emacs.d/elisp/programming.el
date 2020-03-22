@@ -1,3 +1,4 @@
+(add-hook 'python-mode-hook (lambda () (set-fill-column 98)))
 
 (use-package go-mode
   :straight t)
@@ -7,67 +8,32 @@
   )
 
 (use-package cider
-  :straight t)
+  :straight t
+  :defer t
+  :hook (clojure-mode))
+
+(use-package ace-jump-mode
+  :straight t
+  :bind ("C-." . ace-jump-mode)
+  :config
+  (message "ace-jump-mode loaded"))
 
 ;; Editting Javascript
 (use-package rjsx-mode
   :straight t
+  :defer t
   :config
   (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
   )
 
 (use-package prettier-js
   :straight t
-  :hook (rjsx-mode . prettier-js-mode))
-
-(use-package counsel-etags
-  :straight t
-  :bind (
-	 :map evil-normal-state-map
-	 ("C-]" . counsel-etags-find-tag-at-point)
-	 )
-  :init
-  (add-hook 'prog-mode-hook
-        (lambda ()
-          (add-hook 'after-save-hook
-            'counsel-etags-virtual-update-tags 'append 'local)))
+  :hook (rjsx-mode . prettier-js-mode)
   :config
-  ;; Auto tag regeneration
-  (setq counsel-etags-update-interval 600)
-
-  (push "build" counsel-etags-ignore-directories)
-  (push ".mypy_cache" counsel-etags-ignore-directories)
-  (push "TAGS" counsel-etags-ignore-filenames)
-  (push "*.json" counsel-etags-ignore-filenames)
-  (push "*.html" counsel-etags-ignore-filenames)
+  (setq prettier-js-args '("--single-quote" "--jsx-single-quote"))
   )
-
-
-;; reference for setup rust mode
-;; https://www.reddit.com/r/rust/comments/a3da5g/my_entire_emacs_config_for_rust_in_fewer_than_20/
-(use-package lsp-mode
-  :straight t
-  :load-path "/home/hung/git/lsp-mode"
-  :hook (rust-mode . lsp)
-  ;; :hook (python-mode . lsp)
-  :commands lsp
-  :config
-  (require 'lsp-clients)
-  (setq lsp-prefer-flymake nil)
-  (setq lsp-eldoc-render-all nil)
-
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection "/home/hung/Envs/p3/bin/pyls")
-  		    :major-modes '(python-mode)
-  		    :server-id 'pyls))
-
-  )
-
 
 ;; optionally
-(use-package lsp-ui :commands lsp-ui-mode :straight t)
-(use-package company-lsp :commands company-lsp :straight t)
-
 ;; Add keybindings for interacting with Cargo
 (use-package cargo
   :straight t
@@ -79,16 +45,7 @@
   (setq rust-format-on-save t)
   )
 
-(use-package flycheck-rust
-  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
 ;; finish setting up rust for emacs
-
-;; (use-package lsp-python-ms
-;;   :straight t
-;;   :hook (python-mode . (lambda ()
-;;                           (require 'lsp-python-ms)
-;;                           (lsp))))  ; or lsp-deferred
 
 (use-package flycheck
   :straight t
@@ -129,6 +86,7 @@
 
 (use-package  highlight-symbol
   :straight t
+  :defer t
   :bind (("C-<f3>" . highlight-symbol)
 	 ("<f3>" . highlight-symbol-next)
 	 ("S-<f3>" . highlight-symbol-prev)))
@@ -150,13 +108,29 @@
   (setq company-minimum-prefix-length 1))
 
 (use-package py-autopep8
-  :straight t
-  )
-
+  :straight t)
 
 (use-package smartparens
-  :straight
+  :straight t
   :commands smartparens-global-mode
+  :bind (:map evil-normal-state-map
+	      ;; Most important commands. Move within the sexp.
+	      ("C-M-a" . sp-beginning-of-sexp)
+	      ("C-M-e" . sp-end-of-sexp)
+
+	      ;; move between sexp of the same level
+	      ("M-l" . sp-next-sexp)
+	      ("M-h" . sp-backward-sexp)
+
+	      ;; move between symbols
+	      ("M-f" . sp-forward-symbol)
+	      ("M-b" . sp-backward-symbol)
+
+	      ("M-j" . sp-down-sexp)
+	      ("M-k" . sp-backward-up-sexp)
+
+	      
+	 )
   :config
   (progn
     (smartparens-global-mode 1)

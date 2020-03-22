@@ -5,12 +5,15 @@
 ;;; Code:
 ;; System configuraitons
 
+
 (use-package ag
   :straight t
   :defer t
   :config (setq ag-highlight-search t)
-  :bind ("M-s 0" . ag)
-  )
+  :bind ("M-s 0" . ag))
+
+(use-package wgrep
+  :straight t)
 
 ;; magit: the git porcelain
 (use-package magit
