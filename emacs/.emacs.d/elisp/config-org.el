@@ -3,8 +3,8 @@
   :config
   (setq org-habit-following-days 3)
   (setq org-habit-preceding-days 7)
-  (setq org-habit-graph-column 70)
-  )
+  (setq org-habit-graph-column 70))
+
 
 (use-package org-pdfview
   :after org
@@ -28,7 +28,10 @@
   (progn
     (unbind-key "C-c C-p" org-mode-map)
     (unbind-key "C-c C-p" org-agenda-mode-map)
+    (unbind-key "C-j" org-mode-map)
+    (unbind-key "C-," org-mode-map)
 
+    
     (setq org-startup-folded nil)
     (setq org-startup-indented t)
 

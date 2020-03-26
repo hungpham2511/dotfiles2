@@ -1,4 +1,4 @@
-(add-hook 'python-mode-hook (lambda () (set-fill-column 98)))
+(add-hook 'python-mode-hook (lambda () (set-fill-column 87)))
 
 (use-package go-mode
   :straight t)

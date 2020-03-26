@@ -1,4 +1,4 @@
-;;; package -- Overal Configuration
+;; package -- Overal Configuration
 ;;; Commentary:
 ; This file contains some overall configurations of my Emacs
 
@@ -99,39 +99,36 @@
   (setq key-chord-two-keys-delay 0.1)
   (key-chord-define evil-insert-state-map "jk" 'evil-force-normal-state))
 
-;; (use-package evil-magit
-;;   :straight t
-;;   :after magit evil)
-
+(use-package evil-magit
+  :straight t
+  :after magit evil)
 
 (use-package hydra
   :straight t)
 
-(defhydra hydra-zoom (global-map "<f2>")
-  "zoom"
-  ("g" text-scale-increase "in")
-  ("l" text-scale-decrease "out"))
 
-(defhydra hydra-move (global-map "C-j")
-  "move around"
-    ("j" next-line "next line")
-    ("k" previous-line "prev line")
-    )
+(defhydra hydra-move (:columns 3)
+   "Move around"
+   ("j" next-line "Next line")
+   ("k" previous-line "Previous line")
+   ("l" forward-char "Forward char" )
+   ("h" backward-char "Backward char")
+   ("a" beginning-of-line "Beginning of line")
+   ("e" move-end-of-line "End of line")
 
-(defhydra hydra-move ()
-   "move
-"
-   ("n" next-line)
-   ("p" previous-line)
-   ("f" forward-char)
-   ("b" backward-char)
-   ("a" beginning-of-line)
-   ("e" move-end-of-line)
-   ("v" scroll-up-command)
+   ("u" (lambda ()
+	  (interactive)
+	  (scroll-down 15)) "Scroll up")
+
+   ("d" (lambda ()
+	  (interactive)
+	  (scroll-up 15)) "Scroll down")
+
+   ("s" isearch-forward "Isearch forward")
 
    ;; Converting M-v to V here by analogy.
-   ("V" scroll-down-command)
-   ("l" recenter-top-bottom))
+   ("SPC" nil "Quit")
+   )
 
 
 (defhydra hydra-projectile (:color teal
@@ -141,20 +138,19 @@
   ("r"   projectile-recentf                  "Recent Files")
   ("z"   projectile-cache-current-file       "Cache Current File")
   ("x"   projectile-remove-known-project     "Remove Known Project")
-  
+
+  ("t"   projectile-find-tag                 "Find tag")
+
   ("d"   projectile-find-dir                 "Find Directory")
   ("b"   projectile-switch-to-buffer         "Switch to Buffer")
   ("c"   projectile-invalidate-cache         "Clear Cache")
   ("X"   projectile-cleanup-known-projects   "Cleanup Known Projects")
-  
+
   ("o"   projectile-multi-occur              "Multi Occur")
   ("s"   projectile-switch-project           "Switch Project")
   ("k"   projectile-kill-buffers             "Kill Buffers")
-  ("q"   nil "Cancel" :color blue))
-
-
-(global-set-key
- (kbd "C-,") 'hydra-projectile/body)
+  ("SPC"   nil "Cancel" :color blue)
+  )
 
 
 
@@ -167,18 +163,20 @@ _j_ ↓        	_x_ horizontal	_f_ind files	_w_ X↓
 _k_ ↑        	_z_ undo      	_a_ce 1		_e_ X↑
 _l_ →        	_Z_ reset      	_s_wap		_r_ X→
 _F_ollow		_D_lt Other   	_S_ave		max_i_mize
-_SPC_ cancel	_o_nly this   	_d_elete	
+_SPC_ cancel	_o_nly this   	_d_elete
  "
    ("h" windmove-left )
    ("j" windmove-down )
    ("k" windmove-up )
    ("l" windmove-right )
+   ("n" next-line)
+   ("p" previous-line)
    ("q" hydra-move-splitter-left)
    ("w" hydra-move-splitter-down)
    ("e" hydra-move-splitter-up)
    ("r" hydra-move-splitter-right)
-   ("b" helm-mini)
-   ("f" helm-find-files)
+   ("b" backward-char)
+   ("f" forward-char)
    ("F" follow-mode)
    ("a" (lambda ()
           (interactive)
@@ -209,7 +207,7 @@ _SPC_ cancel	_o_nly this   	_d_elete
           (add-hook 'ace-window-end-once-hook
                     'hydra-window/body))
        )
-   ("o" delete-other-windows)
+   ("o" org-open-at-point)
    ("i" ace-maximize-window)
    ("z" (progn
           (winner-undo)
@@ -220,7 +218,20 @@ _SPC_ cancel	_o_nly this   	_d_elete
    )
 
 
+(straight-use-package 'general)
+
+(global-unset-key (kbd "M-SPC"))
+
+
+(general-define-key
+ "M-SPC j" 'hydra-move/body
+ "M-SPC p" 'hydra-projectile/body
+ "M-SPC w" 'hydra-window/body )
+
+
 (setq dired-listing-switches "-lah")
+
+
 
 (use-package smex
   :straight t)
