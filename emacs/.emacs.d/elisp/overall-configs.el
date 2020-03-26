@@ -5,6 +5,8 @@
 ;;; Code:
 ;; System configuraitons
 
+(straight-use-package 'general)
+
 
 (use-package ag
   :straight t
@@ -34,6 +36,7 @@
     "Scroll down half page."
     (interactive)
     (evil-scroll-down 0))
+
   (defun scroll-up-half-page ()
     "Scroll down half page."
     (interactive)
@@ -103,56 +106,17 @@
   :straight t
   :after magit evil)
 
+
+;; A move for navigation, jummping around basically
+(use-package ace-jump-mode
+  :straight t
+  :config
+  (message "ace-jump-mode loaded"))
+
+(straight-use-package 'ace-link)
+
 (use-package hydra
   :straight t)
-
-
-(defhydra hydra-move (:columns 3)
-   "Move around"
-   ("j" next-line "Next line")
-   ("k" previous-line "Previous line")
-   ("l" forward-char "Forward char" )
-   ("h" backward-char "Backward char")
-   ("a" beginning-of-line "Beginning of line")
-   ("e" move-end-of-line "End of line")
-
-   ("u" (lambda ()
-	  (interactive)
-	  (scroll-down 15)) "Scroll up")
-
-   ("d" (lambda ()
-	  (interactive)
-	  (scroll-up 15)) "Scroll down")
-
-   ("s" isearch-forward "Isearch forward")
-
-   ;; Converting M-v to V here by analogy.
-   ("SPC" nil "Quit")
-   )
-
-
-(defhydra hydra-projectile (:color teal
-			    :columns 4)
-  "Projectile"
-  ("f"   projectile-find-file                "Find File")
-  ("r"   projectile-recentf                  "Recent Files")
-  ("z"   projectile-cache-current-file       "Cache Current File")
-  ("x"   projectile-remove-known-project     "Remove Known Project")
-
-  ("t"   projectile-find-tag                 "Find tag")
-
-  ("d"   projectile-find-dir                 "Find Directory")
-  ("b"   projectile-switch-to-buffer         "Switch to Buffer")
-  ("c"   projectile-invalidate-cache         "Clear Cache")
-  ("X"   projectile-cleanup-known-projects   "Cleanup Known Projects")
-
-  ("o"   projectile-multi-occur              "Multi Occur")
-  ("s"   projectile-switch-project           "Switch Project")
-  ("k"   projectile-kill-buffers             "Kill Buffers")
-  ("SPC"   nil "Cancel" :color blue)
-  )
-
-
 
 (defhydra hydra-window ()
    "
@@ -217,21 +181,18 @@ _SPC_ cancel	_o_nly this   	_d_elete
    ("SPC" nil)
    )
 
-
-(straight-use-package 'general)
-
-(global-unset-key (kbd "M-SPC"))
-
-
+;; Define key binding here. Quite useful.
 (general-define-key
- "M-SPC j" 'hydra-move/body
- "M-SPC p" 'hydra-projectile/body
- "M-SPC w" 'hydra-window/body )
+ :states 'motion
+ "SPC" 'hydra-window/body
+ "C-SPC k" 'general-describe-keybindings
+ "C-s" 'isearch-forward
+ "f" 'ace-jump-mode
+ "C-f" 'ace-link
+ )
 
 
 (setq dired-listing-switches "-lah")
-
-
 
 (use-package smex
   :straight t)
@@ -246,6 +207,7 @@ _SPC_ cancel	_o_nly this   	_d_elete
 	 ("<f1>" . counsel-M-x)
 	 ("C-x C-f" . counsel-find-file)
 	 ("C-c k" . counsel-ag)))
+
 
 (use-package ivy
   :diminish t

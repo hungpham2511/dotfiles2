@@ -1,30 +1,22 @@
-(add-hook 'python-mode-hook (lambda () (set-fill-column 87)))
-
 (use-package go-mode
   :straight t)
 
+
 (use-package clojure-mode
-  :straight t
-  )
+  :straight t)
 
 (use-package cider
   :straight t
   :defer t
   :hook (clojure-mode))
 
-(use-package ace-jump-mode
-  :straight t
-  :bind ("C-." . ace-jump-mode)
-  :config
-  (message "ace-jump-mode loaded"))
 
 ;; Editting Javascript
 (use-package rjsx-mode
   :straight t
   :defer t
   :config
-  (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
-  )
+  (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode)))
 
 (use-package prettier-js
   :straight t
@@ -46,7 +38,6 @@
   )
 
 ;; finish setting up rust for emacs
-
 (use-package flycheck
   :straight t
   :demand
