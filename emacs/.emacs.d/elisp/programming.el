@@ -86,20 +86,11 @@
 (use-package company
   :straight t
   :demand
-  :bind (
-	 ("C-M-i" . company-complete)
-	 :map python-mode-map
-	 ("C-M-i" . company-complete)
-	 :map emacs-lisp-mode-map
-	 ("C-M-i" . company-complete)
-	 )
+  :commands global-company-mode
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 1))
-
-(use-package py-autopep8
-  :straight t)
 
 (use-package smartparens
   :straight t
@@ -108,6 +99,8 @@
 	      ;; Most important commands. Move within the sexp.
 	      ("C-M-a" . sp-beginning-of-sexp)
 	      ("C-M-e" . sp-end-of-sexp)
+	      ("C-M-f" . sp-forward-sexp)
+	      ("C-M-b" . sp-backward-sexp)
 
 	      ;; move between sexp of the same level
 	      ("M-l" . sp-next-sexp)
@@ -119,8 +112,6 @@
 
 	      ("M-j" . sp-down-sexp)
 	      ("M-k" . sp-backward-up-sexp)
-
-	      
 	 )
   :config
   (progn

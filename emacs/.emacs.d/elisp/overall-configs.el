@@ -139,8 +139,6 @@ _SPC_ cancel	_o_nly this   	_d_elete
    ("w" hydra-move-splitter-down)
    ("e" hydra-move-splitter-up)
    ("r" hydra-move-splitter-right)
-   ("b" backward-char)
-   ("f" forward-char)
    ("F" follow-mode)
    ("a" (lambda ()
           (interactive)
@@ -172,6 +170,7 @@ _SPC_ cancel	_o_nly this   	_d_elete
                     'hydra-window/body))
        )
    ("o" org-open-at-point)
+   ("f" ace-jump-word-mode)
    ("i" ace-maximize-window)
    ("z" (progn
           (winner-undo)

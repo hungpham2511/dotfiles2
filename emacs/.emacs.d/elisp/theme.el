@@ -20,8 +20,11 @@
     (sml/setup)
     (setq sml/theme 'dark)))
 
-(use-package dracula-theme
-  :straight t)
+(straight-use-package 'dracula-theme)
+(load-theme 'dracula)
+
+;; (use-package dracula-theme
+;;   :straight t)
 
 (use-package all-the-icons
   :straight t)
