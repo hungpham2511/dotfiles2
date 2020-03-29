@@ -45,7 +45,7 @@
 
 
 (defun kata/p-str (s)
-  "Simple formatter. "
+  "Simple formatter."
   (message (format "%s" s)))
 
 
@@ -56,6 +56,7 @@
 
 
 (defun kata/blacken-run-proc ()
+  "Run blacken, return error code."
   (equal
    (let ((process (make-process
 		   :name "blaken"
@@ -64,7 +65,6 @@
 		   :command (list kata/black-executable "-")
 		   :sentinel (lambda (p status) (message "Black terminates with status: %s" status))
 		   )))
-
      (process-send-region process (point-min) (point-max))
      (process-send-eof process)
      (while (process-live-p process)
@@ -74,6 +74,7 @@
 
 
 (defun kata/copy-output-back-to-buffer ()
+  "Copy output from output buffer back."
   (let ((p (point)))
     (erase-buffer)
     (insert-buffer-substring kata/black-buffer-out)
