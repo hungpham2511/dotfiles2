@@ -198,6 +198,14 @@
       ("C-c n i" . org-roam-insert)
       ("C-c n g" . org-roam-show-graph))
 
+(use-package org-bullets
+  :after org
+  :straight t
+  :demand
+  :hook
+  ((org-mode . (lambda () (org-bullets-mode 1)))))
+
+
 
 (use-package deft
   :after org
