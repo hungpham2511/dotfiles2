@@ -1,7 +1,6 @@
 (use-package go-mode
   :straight t)
 
-
 (use-package clojure-mode
   :straight t)
 
@@ -115,7 +114,6 @@
 	 )
   :config
   (progn
-    (smartparens-global-mode 1)
     (require 'smartparens-config)
     (sp-local-pair 'org-mode "$" "$")
     (eval-after-load 'org-mode     '(require 'smartparens-org))

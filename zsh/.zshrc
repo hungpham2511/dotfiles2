@@ -54,7 +54,11 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git python pip web-search virtualenvwrapper k autopep8 pass vagrant z)
+plugins=(
+    docker-compose
+    git python pip web-search virtualenvwrapper autopep8 pass vagrant z docker
+    git-flow
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -134,6 +138,7 @@ alias lapp='roslaunch optics_handling_app'
 
 alias ddev='docker-compose -f docker-compose-dev.yaml up -d'
 alias ddwn='docker-compose -f docker-compose-dev.yaml down'
+alias gssh=$HOME/dotfiles2/bin/gssh.sh
 
 # Virtual ENVs
 export WORKON_HOME=~/Envs
@@ -168,3 +173,12 @@ export PATH=$HOME/.cargo/bin:$PATH
 export GEM_HOME="$HOME/gems"
 export PATH="$HOME/gems/bin:$PATH"
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/hung/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/hung/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/hung/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/hung/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+
+alias arcr='docker exec -it dev-env entrypoint'

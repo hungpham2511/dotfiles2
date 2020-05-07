@@ -191,6 +191,7 @@
       :straight (:host github :repo "jethrokuan/org-roam" :branch "develop")
       :custom
       (org-roam-directory "/home/hung/org/")
+      (org-roam-link-title-format (lambda (title) (s-upper-camel-case title)))
       :bind
       ("C-c n l" . org-roam)
       ("C-c n t" . org-roam-today)

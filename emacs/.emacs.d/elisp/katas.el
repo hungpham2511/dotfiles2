@@ -50,9 +50,10 @@
 
 
 (defun kata/erase-output-buffer ()
-  (with-current-buffer kata/black-buffer-out
-    (erase-buffer))
-  )
+  "Check and clear buffer."
+  (if (get-buffer-create kata/black-buffer-out)
+      (with-current-buffer kata/black-buffer-out
+	(erase-buffer))))
 
 
 (defun kata/blacken-run-proc ()

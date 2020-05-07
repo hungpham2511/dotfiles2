@@ -15,7 +15,15 @@
   :bind ("M-s 0" . ag))
 
 (use-package wgrep
-  :straight t)
+  :straight t
+  :ensure
+  :config
+  (wgrep-ag-setup)
+  (use-package wgrep-ag
+    :straight t
+    :ensure t
+    )
+  )
 
 ;; magit: the git porcelain
 (use-package magit

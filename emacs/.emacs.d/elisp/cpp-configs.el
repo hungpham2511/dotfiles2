@@ -12,7 +12,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package lsp-mode
   :hook (c++-mode . lsp)
-  :commands lsp)
+  :straight t
+  :commands lsp
+  :config
+  (setq gc-cons-threshold 100000000)
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+
+  )
 
 ;; ;; optionally
 ;; (use-package lsp-ui :commands lsp-ui-mode)

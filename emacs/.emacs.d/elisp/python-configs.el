@@ -165,5 +165,12 @@ Also, switch to that buffer."
 	      (lambda ()
 		(define-key python-mode-map (kbd "C-c C-o") 'python-occur-definitions)))
 
+;; (use-package lsp-python-ms
+;;   :straight t
+;;   :ensure t
+;;   :hook (python-mode . (lambda ()
+;;                           (require 'lsp-python-ms)
+;;                           (lsp))))  ; or lsp-deferred
+
 (provide 'python-configs)
 ;;; python-configs.el ends here
