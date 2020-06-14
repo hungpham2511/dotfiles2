@@ -4,9 +4,8 @@
 
 ;;; Code:
 ;; System configuraitons
-
+(global-set-key (kbd "C-c e") 'eval-region)
 (straight-use-package 'general)
-
 
 (use-package ag
   :straight t
@@ -16,14 +15,13 @@
 
 (use-package wgrep
   :straight t
-  :ensure
+  :ensure t
   :config
-  (wgrep-ag-setup)
   (use-package wgrep-ag
     :straight t
     :ensure t
-    )
-  )
+    :config
+    (wgrep-ag-setup)))
 
 ;; magit: the git porcelain
 (use-package magit
@@ -123,71 +121,6 @@
 
 (straight-use-package 'ace-link)
 
-(use-package hydra
-  :straight t)
-
-(defhydra hydra-window ()
-   "
-Movement^^        ^Split^         ^Switch^		^Resize^
-----------------------------------------------------------------
-_h_ ←       	_v_ertical    	_b_uffer		_q_ X←
-_j_ ↓        	_x_ horizontal	_f_ind files	_w_ X↓
-_k_ ↑        	_z_ undo      	_a_ce 1		_e_ X↑
-_l_ →        	_Z_ reset      	_s_wap		_r_ X→
-_F_ollow		_D_lt Other   	_S_ave		max_i_mize
-_SPC_ cancel	_o_nly this   	_d_elete
- "
-   ("h" windmove-left )
-   ("j" windmove-down )
-   ("k" windmove-up )
-   ("l" windmove-right )
-   ("n" next-line)
-   ("p" previous-line)
-   ("q" hydra-move-splitter-left)
-   ("w" hydra-move-splitter-down)
-   ("e" hydra-move-splitter-up)
-   ("r" hydra-move-splitter-right)
-   ("F" follow-mode)
-   ("a" (lambda ()
-          (interactive)
-          (ace-window 1)
-          (add-hook 'ace-window-end-once-hook
-                    'hydra-window/body))
-       )
-   ("v" (lambda ()
-          (interactive)
-          (split-window-right)
-          (windmove-right))
-       )
-   ("x" (lambda ()
-          (interactive)
-          (split-window-below)
-          (windmove-down))
-       )
-   ("s" (lambda ()
-          (interactive)
-          (ace-window 4)
-          (add-hook 'ace-window-end-once-hook
-                    'hydra-window/body)))
-   ("S" save-buffer)
-   ("d" delete-window)
-   ("D" (lambda ()
-          (interactive)
-          (ace-window 16)
-          (add-hook 'ace-window-end-once-hook
-                    'hydra-window/body))
-       )
-   ("o" org-open-at-point)
-   ("f" ace-jump-word-mode)
-   ("i" ace-maximize-window)
-   ("z" (progn
-          (winner-undo)
-          (setq this-command 'winner-undo))
-   )
-   ("Z" winner-redo)
-   ("SPC" nil)
-   )
-
 ;; Define key binding here. Quite useful.
 (general-define-key
  :states 'motion
@@ -195,8 +128,7 @@ _SPC_ cancel	_o_nly this   	_d_elete
  "C-SPC k" 'general-describe-keybindings
  "C-s" 'isearch-forward
  "f" 'ace-jump-mode
- "C-f" 'ace-link
- )
+ "C-f" 'ace-link)
 
 
 (setq dired-listing-switches "-lah")
@@ -237,6 +169,35 @@ _SPC_ cancel	_o_nly this   	_d_elete
 	;; allow input not in order
         '((t   . ivy--regex-plus))))
 
+(use-package neotree
+  :straight t
+  :defer
+  :config
+  (setq neo-window-fixed-size nil)
+  (setq neo-window-width 40)
+
+  (evil-define-key 'normal neotree-mode-map
+    (kbd "TAB") 'neotree-enter
+    (kbd "RET") 'neotree-enter
+    (kbd "SPC") 'neotree-quick-look
+    "q" 'neotree-hide
+    "j" 'neotree-next-line
+    "k" 'neotree-previous-line
+    "H" 'neotree-hidden-file-toggle
+    "g" 'neotree-refresh
+    "A" 'neotree-stretch-toggle
+    "C" 'neotree-change-root))
+
+(use-package projectile
+  :straight t
+  :after org
+  :bind (:map evil-motion-state-map
+	      ("s-," . projectile-command-map)
+	      :map org-agenda-mode-map
+	      ("s-," . projectile-command-map))
+  :config (setq projectile-indexing-method 'hybrid
+		projectile-completion-system 'ivy)
+  (projectile-mode +1))
 
 (provide 'overall-configs)
 ;;; overall_configurations ends here

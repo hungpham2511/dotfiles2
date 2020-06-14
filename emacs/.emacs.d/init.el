@@ -1,6 +1,8 @@
-; Commentary:
+;;; Commentary: The entrypoint to my emacs config.
 (require 'package)
+;;; Code:
 
+;; Configure straight: A package for managing package installation.
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -13,56 +15,52 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
+;; use-package to install, manage configurations and manage key
+;; bindings for different packages.
 (straight-use-package 'use-package)
 
+; Sub modules loadpath
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 (eval-when-compile
   (require 'use-package))
 (straight-use-package 'diminish)
 (require 'bind-key)
 
-;; Configure core configurations: evil, magit, etc
+;; Core packages: evil, magit
 (use-package overall-configs
   :load-path "~/.emacs.d/elisp"
   :demand)
 
-;; Configure appearances
+;; Appearances
 (use-package theme
   :load-path "~/.emacs.d/elisp"
-  :init (message "Configure appearances"))
+  :init (message "Configure appearances")
+  :config
+  ;; Uncomment the theme you want
+  (message "Load theme")
+  (load-theme
+   'solarized-dark
+   ;; 'dracula
+   ;; 'solarized-light
+	      ))
+(use-package config-org
+  :load-path "~/.emacs.d/elisp"
+  :demand)
+
+(use-package my-org-configs
+  :load-path "~/.emacs.d/elisp"
+  :after org)
 
 (use-package test-mod
   :load-path "~/.emacs.d/elisp"
   :config
   (message "Starting test module"))
 
-(use-package neotree
-  :straight t
-  :config
-  (setq neo-window-fixed-size nil)
-  (setq neo-window-width 40)
-
-  (evil-define-key 'normal neotree-mode-map
-    (kbd "TAB") 'neotree-enter
-    (kbd "RET") 'neotree-enter
-    (kbd "SPC") 'neotree-quick-look
-    "q" 'neotree-hide
-    "j" 'neotree-next-line
-    "k" 'neotree-previous-line
-    "H" 'neotree-hidden-file-toggle
-    "g" 'neotree-refresh
-    "A" 'neotree-stretch-toggle
-    "C" 'neotree-change-root))
-
 ;; setup stage 3: python configuration
-(use-package jedi-core
-  :straight t
-  :config (jedi:install-server))
-
 (use-package python-configs
   :load-path "~/.emacs.d/elisp"
-  :demand
-  :after jedi-core)
+  :demand)
 
 ;; setup c++ programming
 (use-package cpp-configs
@@ -82,8 +80,7 @@
 	 ("<f1>" . find-dired-dropbox-iname)
 	 :map org-mode-map
 	 ("C-c C-q" . counsel-org-tag-2)
-	 ("C-c C-p" . org-previous-visible-heading)
-	 )
+	 ("C-c C-p" . org-previous-visible-heading))
   :config
   (setq browse-url-browser-function 'browse-url-chrome))
 
@@ -92,36 +89,13 @@
   :load-path "~/.emacs.d/elisp"
   :demand
   :bind (:map emacs-lisp-mode-map
-	      ("C-c C-c" . eval-buffer))
-  )
+	      ("C-c C-c" . eval-buffer)))
 
 (use-package config-latex
   :load-path "~/.emacs.d/elisp"
   :bind (:map evil-normal-state-map
 	      ("-" . ivy-bibtex))
-  :demand
-  )
-
-(use-package config-org
-  :load-path "~/.emacs.d/elisp"
   :demand)
-
-(use-package my-org-configs
-  :load-path "~/.emacs.d/elisp"
-  :after org)
-
-(use-package projectile
-  :straight t
-  :after org
-  :bind (:map evil-motion-state-map
-	      ("s-," . projectile-command-map)
-	      :map org-agenda-mode-map
-	      ("s-," . projectile-command-map)
-	      )
-  :config (setq projectile-indexing-method 'hybrid
-		projectile-completion-system 'ivy)
-  (projectile-mode +1)
-  )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -134,11 +108,12 @@
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
  '(custom-safe-themes
-   '("0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "cceea05d19dc03690d677e360a5b1a2ebb0e9d8a65d1ec1cd7b49fefcef3ea3e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "54f2d1fcc9bcadedd50398697618f7c34aceb9966a6cbaa99829eb64c0c1f3ca" "1436d643b98844555d56c59c74004eb158dc85fc55d2e7205f8d9b8c860e177f" "88049c35e4a6cedd4437ff6b093230b687d8a1fb65408ef17bfcf9b7338734f6" "8e797edd9fa9afec181efbfeeebf96aeafbd11b69c4c85fa229bb5b9f7f7e66c" "51043b04c31d7a62ae10466da95a37725638310a38c471cc2e9772891146ee52" "fd944f09d4d0c4d4a3c82bd7b3360f17e3ada8adf29f28199d09308ba01cc092" "8f97d5ec8a774485296e366fdde6ff5589cf9e319a584b845b6f7fa788c9fa9a" "9f08dacc5b23d5eaec9cccb6b3d342bd4fdb05faf144bdcd9c4b5859ac173538" "3018b767e4d5b0ddf37c909b2ea2a29c249d5a88645b4243d5b97fe2d67c71ab" "36c2b7efdc064944eb067e56c7ec65808a6cee0f63ce068b693fb30b110e57e5" "8ba0a9fc75f2e3b4c254183e814b8b7b8bcb1ad6ca049fde50e338e1c61a12a0" "2b9dc43b786e36f68a9fd4b36dd050509a0e32fe3b0a803310661edb7402b8b6" "3dd98b7c43041526b35a4466c165d55400207ea9a82fd765c5c4bffffe1a7bd9" "2f524d307a2df470825718e27b8e3b81c0112dad112ad126805c043d7c1305c6" "3b2d3c38bac1160e32b8fb79ebc95e5464df4f6866fdb17c188b0adf4d02342a" "5c85b6f7f76fe0e0979da4c650dee525ae5185b134cb0fdfb12eeb580ea4dafb" "dc9a8d70c4f94a28aafc7833f8d05667601968e6c9bf998791c39fcb3e4679c9" "5a970147df34752ed45bfdf0729233abfc085d9673ae7e40210c5e2d8f624b08" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "2b6bd2ebad907ee42b3ffefa4831f348e3652ea8245570cdda67f0034f07db93" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "125fd2180e880802ae98b85f282b17f0aa8fa6cb9fc4f33d7fb19a38c40acef0" "65d9573b64ec94844f95e6055fe7a82451215f551c45275ca5b78653d505bc42" default))
+   '("00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "cceea05d19dc03690d677e360a5b1a2ebb0e9d8a65d1ec1cd7b49fefcef3ea3e" "c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "54f2d1fcc9bcadedd50398697618f7c34aceb9966a6cbaa99829eb64c0c1f3ca" "1436d643b98844555d56c59c74004eb158dc85fc55d2e7205f8d9b8c860e177f" "88049c35e4a6cedd4437ff6b093230b687d8a1fb65408ef17bfcf9b7338734f6" "8e797edd9fa9afec181efbfeeebf96aeafbd11b69c4c85fa229bb5b9f7f7e66c" "51043b04c31d7a62ae10466da95a37725638310a38c471cc2e9772891146ee52" "fd944f09d4d0c4d4a3c82bd7b3360f17e3ada8adf29f28199d09308ba01cc092" "8f97d5ec8a774485296e366fdde6ff5589cf9e319a584b845b6f7fa788c9fa9a" "9f08dacc5b23d5eaec9cccb6b3d342bd4fdb05faf144bdcd9c4b5859ac173538" "3018b767e4d5b0ddf37c909b2ea2a29c249d5a88645b4243d5b97fe2d67c71ab" "36c2b7efdc064944eb067e56c7ec65808a6cee0f63ce068b693fb30b110e57e5" "8ba0a9fc75f2e3b4c254183e814b8b7b8bcb1ad6ca049fde50e338e1c61a12a0" "2b9dc43b786e36f68a9fd4b36dd050509a0e32fe3b0a803310661edb7402b8b6" "3dd98b7c43041526b35a4466c165d55400207ea9a82fd765c5c4bffffe1a7bd9" "2f524d307a2df470825718e27b8e3b81c0112dad112ad126805c043d7c1305c6" "3b2d3c38bac1160e32b8fb79ebc95e5464df4f6866fdb17c188b0adf4d02342a" "5c85b6f7f76fe0e0979da4c650dee525ae5185b134cb0fdfb12eeb580ea4dafb" "dc9a8d70c4f94a28aafc7833f8d05667601968e6c9bf998791c39fcb3e4679c9" "5a970147df34752ed45bfdf0729233abfc085d9673ae7e40210c5e2d8f624b08" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "2b6bd2ebad907ee42b3ffefa4831f348e3652ea8245570cdda67f0034f07db93" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "125fd2180e880802ae98b85f282b17f0aa8fa6cb9fc4f33d7fb19a38c40acef0" "65d9573b64ec94844f95e6055fe7a82451215f551c45275ca5b78653d505bc42" default))
  '(deft-default-extension "org" t)
- '(deft-directory "~/org" t)
- '(deft-recursive t t)
- '(deft-use-filter-string-for-filename t t)
+ '(deft-directory "~/org")
+ '(deft-extensions '("txt" "text" "org"))
+ '(deft-recursive t)
+ '(deft-use-filter-string-for-filename t)
  '(fci-rule-color "#eee8d5")
  '(frame-background-mode 'dark)
  '(highlight-changes-colors '("#d33682" "#6c71c4"))

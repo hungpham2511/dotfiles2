@@ -16,14 +16,24 @@
   :commands lsp
   :config
   (setq gc-cons-threshold 100000000)
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-
+  (setq read-process-output-max (* 9048 1024)) ;; 1mb
   )
 
 ;; ;; optionally
-;; (use-package lsp-ui :commands lsp-ui-mode)
-;; (use-package company-lsp :commands company-lsp)
-;; (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-;; (use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :straight t)
+
+(use-package company-lsp
+  :straight t
+  :commands company-lsp)
+
+(use-package lsp-python-ms
+  :straight t
+  :demand
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp))))  ; or lsp-deferred
 
 (provide 'cpp-configs)

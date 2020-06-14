@@ -55,6 +55,7 @@
 (use-package cdlatex
   :straight t)
 
+;; Use for managing references very useful
 (use-package ivy-bibtex
   :straight t
   :bind (
@@ -72,11 +73,17 @@
 	    "~/Dropbox/BookandPaper/biblio/library_misc.bib"
 	    ))
 
-    (setq bibtex-completion-notes-path "~/org/papers.org")
+    ;; (setq bibtex-completion-notes-path "~/org/papers.org")
+    (setq bibtex-completion-notes-path "~/org/readingnotes")
+    (setq bibtex-completion-notes-template-multiple-files
+	  "#+TITLE: (${year}): ${title} 
+#+AUTHOR: ${author}
+#+YEAR: ${year}
+"
+	  )
 
     ;; this allows bibtex-search to find tags in addition to other field
     (setq bibtex-completion-additional-search-fields '(tags journal))
-
     (setq bibtex-completion-library-path '("~/Dropbox/BookandPaper/Papers"))
     )
   )

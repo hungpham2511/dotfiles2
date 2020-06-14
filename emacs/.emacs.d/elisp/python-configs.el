@@ -1,8 +1,6 @@
 ;;; python-configs -- Summary
 ;;; Commentary:
 ; Simple snippets to use with init.el
-(require 'jedi-core)
-
 ;;; Code:
 
 ;; For some reasons I need to have an active python environment,
@@ -91,11 +89,7 @@ Also, switch to that buffer."
   (goto-char (point-min))
   (if (re-search-forward "def" nil t)  ;; Search forward for some regular expression
       (message (thing-at-point 'line))
-    (message "do not found any def")
-      )
-
-  )
-
+    (message "do not found any def")))
 
 (defun python-ivy-definitions ()
   ""
@@ -164,13 +158,6 @@ Also, switch to that buffer."
 (add-hook 'python-mode-hook
 	      (lambda ()
 		(define-key python-mode-map (kbd "C-c C-o") 'python-occur-definitions)))
-
-;; (use-package lsp-python-ms
-;;   :straight t
-;;   :ensure t
-;;   :hook (python-mode . (lambda ()
-;;                           (require 'lsp-python-ms)
-;;                           (lsp))))  ; or lsp-deferred
 
 (provide 'python-configs)
 ;;; python-configs.el ends here

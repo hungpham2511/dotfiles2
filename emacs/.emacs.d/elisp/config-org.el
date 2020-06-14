@@ -5,11 +5,9 @@
   (setq org-habit-preceding-days 7)
   (setq org-habit-graph-column 70))
 
-
 (use-package org-pdfview
   :after org
   :straight t)
-
 
 (use-package org
   :straight org-plus-contrib
@@ -45,7 +43,7 @@
     ;; setup image
     (setq org-image-actual-width 600)
     (setq org-agenda-search-view-always-boolean t)
-   
+    
     ;; (setcdr (assoc "\\.pdf\\'" org-file-apps) "zathura %s")
     (setcdr (assoc "\\.x?html?\\'" org-file-apps) "google-chrome %s")
     (setcdr (assoc "\\.pdf\\'" org-file-apps) (lambda (file link) (org-pdfview-open link)))
@@ -62,23 +60,30 @@
 	      (agenda "" )
 	      (tags "+inprogress/TODO")
 	      (tags "-backlog-habit-inprogress/TODO"
-			 ((org-agenda-sorting-strategy
-			   '((tags priority-down category-up )))))
+		    ((org-agenda-sorting-strategy
+		      '((tags priority-down category-up )))))
 	      (tags "+backlog+TODO=\"TODO\"|+refile")
 	      (todo "WaitingFor")
 	      )
 
 	     ;; Custom setting for this command
 	     ((org-agenda-span 'day)
-	      (org-agenda-files '("~/org"))
+	      (org-agenda-files '(
+				  "~/org/refile.org"
+				  "~/org/journal.org"
+				  "~/org/eureka.org"
+				  "~/org/TOPPRA.org"
+				  "~/org/research.org"
+				  "~/org/papers.org"
+				  ))
 	      (org-agenda-sorting-strategy
-	      '(
-		(agenda habit-down time-up priority-down category-down)
-	     	(todo habit-up category-up priority-down tag-down)
-	     	(tags effort-up priority-down category-up)
-	     	;; (search category-keep)
-		)))
-	     ("~/Dropbox/agenda.html"))
+	       '(
+		 (agenda habit-down time-up priority-down category-down)
+		 (todo habit-up category-up priority-down tag-down)
+		 (tags effort-up priority-down category-up)
+		 ;; (search category-keep)
+		 )))
+	     )
 	    ("g" "test agenda"
 	     ((tags "+refile|+backlog+TODO=\"TODO\""))
 	     )
@@ -99,12 +104,12 @@
 				  "~/org/study.org"
 				  "~/org/people.org"
 				  "~/org/test.org"))
-	     (org-agenda-sorting-strategy
-	      '((agenda habit-down time-up priority-down category-down)
-		(todo category-up priority-down tag-down)
-		;; (tags priority-down todo-state-up category-down)
-		(tags category-keep priority-down todo-state-up )
-		(search category-keep))))
+	      (org-agenda-sorting-strategy
+	       '((agenda habit-down time-up priority-down category-down)
+		 (todo category-up priority-down tag-down)
+		 ;; (tags priority-down todo-state-up category-down)
+		 (tags category-keep priority-down todo-state-up )
+		 (search category-keep))))
 	     )
 	    ("p" "paper view" ;; Description
 	     ;; Commands
@@ -136,9 +141,8 @@
 		  ("n" "note" entry (file "~/org/refile.org")
 		   "* %? :NOTE:\n%U\n%a\n")
 		  ("j" "Journal" entry (file+datetree "~/org/journal.org")
-		   "* %?\n%U\n")
+		   "*  %? :journal: \n%T\n")
 		  ("p" "New paper" plain (file "~/Dropbox/BookandPaper/biblio/library.bib") "@comment Entry added with org-capture\n\n%?")
-
 		  ("m" "Meeting" entry (file "~/org/refile.org")
 		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
 		  ("a" "Mail to" entry (file "~/org/refile.org")
@@ -180,25 +184,10 @@
 
   ;; This line is mysteriously needed to get rid of this error:
   ;; Error running timer ‘org-indent-initialize-agent’: (void-function org-time-add)
-  (org-reload))
+  ;; (org-reload)
+  )
 
-(use-package org-roam
-      :after org
-      :hook 
-      ((org-mode . org-roam-mode)
-       (after-init . org-roam--build-cache-async) ;; optional!
-       )
-      :straight (:host github :repo "jethrokuan/org-roam" :branch "develop")
-      :custom
-      (org-roam-directory "/home/hung/org/")
-      (org-roam-link-title-format (lambda (title) (s-upper-camel-case title)))
-      :bind
-      ("C-c n l" . org-roam)
-      ("C-c n t" . org-roam-today)
-      ("C-c n f" . org-roam-find-file)
-      ("C-c n i" . org-roam-insert)
-      ("C-c n g" . org-roam-show-graph))
-
+;; Super cool bullet
 (use-package org-bullets
   :after org
   :straight t
@@ -206,7 +195,32 @@
   :hook
   ((org-mode . (lambda () (org-bullets-mode 1)))))
 
+(use-package ox-hugo
+  :after org
+  :straight t
+  :demand)
 
+;; To manage links between org notes, I use org-roam. This is a really
+;; nice package for creating links between nodes. It can show the
+;; backlinks: i.e. notes that refer the current nodes, can generate a
+;; graph and so on.
+(use-package org-roam
+  :after org
+  :defer
+  :hook (
+	 (org-mode . org-roam-mode)
+	 (after-init . org-roam--build-cache-async) ;; optional!
+	 )
+  :straight (:host github :repo "jethrokuan/org-roam" :branch "develop")
+  :custom
+  (org-roam-directory "/home/hung/org/")
+  (org-roam-link-title-format (lambda (title) (s-upper-camel-case title)))
+  :bind
+  ("C-c n l" . org-roam)
+  ("C-c n t" . org-roam-today)
+  ("C-c n f" . org-roam-find-file)
+  ("C-c n i" . org-roam-insert)
+  ("C-c n g" . org-roam-graph-show))
 
 (use-package deft
   :after org
@@ -222,7 +236,6 @@
   (setq deft-file-naming-rules
 	'((noslash . "-")
 	  (nospace . "-")
-	  (case-fn . downcase)))
-  )
+	  (case-fn . downcase))))
 
 (provide 'config-org)
