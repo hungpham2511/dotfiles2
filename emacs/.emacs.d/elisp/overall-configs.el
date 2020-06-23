@@ -13,6 +13,15 @@
   :config (setq ag-highlight-search t)
   :bind ("M-s 0" . ag))
 
+;; A very nice package for searching. I think this one beat everything
+;; else.
+(use-package rg
+  :straight t
+  :demand
+  :after wgrep
+  :config
+  (rg-enable-default-bindings))
+
 (use-package wgrep
   :straight t
   :ensure t
@@ -22,6 +31,14 @@
     :ensure t
     :config
     (wgrep-ag-setup)))
+
+;; Use to show the available key bindings. Press the prefix key
+;; combination then wait for 1 second.
+(use-package which-key
+  :straight t
+  :demand
+  :config
+  (which-key-mode))
 
 ;; magit: the git porcelain
 (use-package magit
@@ -100,9 +117,12 @@
   (add-hook 'org-mode-hook
 	    (lambda () (push '(?m . ("$" . "$")) evil-surround-pairs-alist))))
 
+
+;; Sometimes doesn't work. need to rerun this script.
 (use-package key-chord
   :straight t
   :after evil
+  :demand
   :config
   (key-chord-mode t)
   (setq key-chord-two-keys-delay 0.1)

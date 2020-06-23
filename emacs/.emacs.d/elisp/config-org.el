@@ -20,8 +20,7 @@
 	 ("C-c C-p" . org-previous-visible-heading)
 	 :map org-agenda-mode-map
 	 ("j" . org-agenda-next-item)
-	 ("k" . org-agenda-previous-item)
-	 )
+	 ("k" . org-agenda-previous-item))
   :config
   (progn
     (unbind-key "C-c C-p" org-mode-map)
@@ -182,9 +181,10 @@
      'org-src-lang-modes '("plantuml" . plantuml))
     (setq org-src-fontify-natively t))
 
-  ;; This line is mysteriously needed to get rid of this error:
-  ;; Error running timer ‘org-indent-initialize-agent’: (void-function org-time-add)
+  ;; ;; This line is mysteriously needed to get rid of this error:
+  ;; ;; Error running timer ‘org-indent-initialize-agent’: (void-function org-time-add)
   ;; (org-reload)
+
   )
 
 ;; Super cool bullet
@@ -222,6 +222,9 @@
   ("C-c n i" . org-roam-insert)
   ("C-c n g" . org-roam-graph-show))
 
+
+;; Very nice package for navigating notes. Complementary to org-roam
+;; very well.
 (use-package deft
   :after org
   :straight t
@@ -232,6 +235,8 @@
   (deft-use-filter-string-for-filename t)
   (deft-default-extension "org")
   (deft-directory "~/org")
+  ;; Set deft auto save interval to 120 seconds
+  (deft-auto-save-interval 120)
   :config
   (setq deft-file-naming-rules
 	'((noslash . "-")

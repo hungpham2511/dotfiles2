@@ -55,13 +55,10 @@
 (use-package cdlatex
   :straight t)
 
-;; Use for managing references very useful
+;; Use for managing references. very useful
 (use-package ivy-bibtex
   :straight t
-  :bind (
-	 ("<f2>" . ivy-bibtex)
-	 ("C-c C-p" . ivy-bibtex)
-	 )
+  :commands 'ivy-bibtex
   :config
   (progn
     (setq ivy-re-builders-alist
@@ -88,6 +85,10 @@
     )
   )
 
+;; Define key binding here. Quite useful.
+(general-define-key
+ :states 'motion
+ "C-c C-p" 'ivy-bibtex)
 
 (provide 'config-latex)
 

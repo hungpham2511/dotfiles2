@@ -21,8 +21,8 @@
   :straight t
   :hook (rjsx-mode . prettier-js-mode)
   :config
-  (setq prettier-js-args '("--single-quote" "--jsx-single-quote"))
-  )
+  (setq prettier-js-args '("--single-quote" "--jsx-single-quote")))
+
 
 ;; optionally
 ;; Add keybindings for interacting with Cargo
@@ -67,9 +67,7 @@
   :config
   ;; Set your lisp system and, optionally, some contribs
   (setq inferior-lisp-program "/usr/bin/sbcl")
-  (setq slime-contribs '(slime-fancy))
-  )
-
+  (setq slime-contribs '(slime-fancy)))
 
 (use-package  highlight-symbol
   :straight t
@@ -85,8 +83,13 @@
   :commands global-company-mode
   :config
   (add-hook 'after-init-hook 'global-company-mode)
+
   (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1))
+  (setq company-minimum-prefix-length 1)
+  ;; Disable company in org-mode because it's super slow.
+  (setq company-global-modes '(not org-mode))
+  )
+
 
 (use-package smartparens
   :straight t
@@ -118,6 +121,5 @@
     (show-smartparens-global-mode)
     (smartparens-global-mode)
     (set-face-foreground 'sp-show-pair-match-face "#8ec07c")))
-
 
 (provide 'programming)
