@@ -1,3 +1,12 @@
+;; setup c++ programming
+(use-package config-cpp
+  :load-path "."
+  :demand)
+
+(use-package config-python
+  :load-path "."
+  :demand)
+
 (use-package go-mode
   :straight t)
 
@@ -9,6 +18,12 @@
   :defer t
   :hook (clojure-mode))
 
+(use-package typescript-mode
+  :straight t
+  :demand
+  :config
+  (setq typescript-indent-level 2)
+  )
 
 ;; Editting Javascript
 (use-package rjsx-mode
@@ -49,7 +64,10 @@
 (use-package yasnippet-snippets
   :straight t
   :config
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  (setq yas-snippet-dirs
+	'("/home/hung/.emacs.d/etc/yasnippet/snippets/" yasnippet-snippets-dir "/home/hung/.emacs.d/snippets"))
+  )
 
 (use-package markdown-mode
   :straight t
@@ -122,4 +140,4 @@
     (smartparens-global-mode)
     (set-face-foreground 'sp-show-pair-match-face "#8ec07c")))
 
-(provide 'programming)
+(provide 'config-programming)

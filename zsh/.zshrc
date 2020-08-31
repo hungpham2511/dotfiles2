@@ -182,3 +182,9 @@ if [ -f '/home/hung/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/h
 
 
 alias arcr='docker exec -it dev-env entrypoint'
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
+
+

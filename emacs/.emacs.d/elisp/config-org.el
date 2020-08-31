@@ -1,14 +1,4 @@
-(use-package org-habit
-  :after org
-  :config
-  (setq org-habit-following-days 3)
-  (setq org-habit-preceding-days 7)
-  (setq org-habit-graph-column 70))
-
-(use-package org-pdfview
-  :after org
-  :straight t)
-
+;; Load and build org mode
 (use-package org
   :straight org-plus-contrib
   :bind (("C-c l" . org-store-link)
@@ -21,14 +11,10 @@
 	 :map org-agenda-mode-map
 	 ("j" . org-agenda-next-item)
 	 ("k" . org-agenda-previous-item))
+  :demand
   :config
   (progn
-    (unbind-key "C-c C-p" org-mode-map)
-    (unbind-key "C-c C-p" org-agenda-mode-map)
-    (unbind-key "C-j" org-mode-map)
-    (unbind-key "C-," org-mode-map)
-
-    
+    (message "Loading org-plus-contrib with straight")
     (setq org-startup-folded nil)
     (setq org-startup-indented t)
 
@@ -51,6 +37,7 @@
     (setq org-tags-exclude-from-inheritance '("project"))
 
     ;; org-agenda [important]
+    (message "Register org agenda custom commands")
     (setq org-agenda-custom-commands
 	  '(
 	    ("j" "(new) work agenda"
@@ -141,6 +128,8 @@
 		   "* %? :NOTE:\n%U\n%a\n")
 		  ("j" "Journal" entry (file+datetree "~/org/journal.org")
 		   "*  %? :journal: \n%T\n")
+		  ("f" "Flow journal" entry (file+datetree "~/org/flow.org")
+		   "* Flow %? :flow: \n%T\n")
 		  ("p" "New paper" plain (file "~/Dropbox/BookandPaper/biblio/library.bib") "@comment Entry added with org-capture\n\n%?")
 		  ("m" "Meeting" entry (file "~/org/refile.org")
 		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
@@ -151,7 +140,6 @@
 	       %(format-time-string \"%<<%Y-%m-%d %a
 	       .+1d/3d>>\")\n:PROPERTIES:\n:STYLE:
 	       habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
-    ;; org-capture fin
 
     ;; org-mode configuration
     (setq org-deadline-warning-days 14)
@@ -160,7 +148,7 @@
     (setq org-default-notes-file "~/org/refile.org")
     (setq org-agenda-files '("~/org/"))
 
-     ;;if the variable org-export-use-babel is nil, header settings
+    ;;if the variable org-export-use-babel is nil, header settings
     ;;will not be considered. Thus this variable need to be True.
     (setq org-export-use-babel t)
     ;; The above setting is commented as it causes some confusion in
@@ -180,12 +168,18 @@
     (add-to-list
      'org-src-lang-modes '("plantuml" . plantuml))
     (setq org-src-fontify-natively t))
-
-  ;; ;; This line is mysteriously needed to get rid of this error:
-  ;; ;; Error running timer ‘org-indent-initialize-agent’: (void-function org-time-add)
-  ;; (org-reload)
-
   )
+
+(use-package org-habit
+  :after org
+  :config
+  (setq org-habit-following-days 3)
+  (setq org-habit-preceding-days 7)
+  (setq org-habit-graph-column 70))
+
+(use-package org-pdfview
+  :after org
+  :straight t)
 
 ;; Super cool bullet
 (use-package org-bullets
@@ -242,5 +236,10 @@
 	'((noslash . "-")
 	  (nospace . "-")
 	  (case-fn . downcase))))
+
+(use-package config-org-extra
+  :load-path "."
+  :after org)
+
 
 (provide 'config-org)

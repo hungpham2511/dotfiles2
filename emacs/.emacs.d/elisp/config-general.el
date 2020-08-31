@@ -7,11 +7,10 @@
 (global-set-key (kbd "C-c e") 'eval-region)
 (straight-use-package 'general)
 
-(use-package ag
-  :straight t
-  :defer t
-  :config (setq ag-highlight-search t)
-  :bind ("M-s 0" . ag))
+;; Prevent littering from ~ files
+(use-package no-littering
+  :demand
+  :straight t)
 
 ;; A very nice package for searching. I think this one beat everything
 ;; else.
@@ -22,15 +21,6 @@
   :config
   (rg-enable-default-bindings))
 
-(use-package wgrep
-  :straight t
-  :ensure t
-  :config
-  (use-package wgrep-ag
-    :straight t
-    :ensure t
-    :config
-    (wgrep-ag-setup)))
 
 ;; Use to show the available key bindings. Press the prefix key
 ;; combination then wait for 1 second.
@@ -211,6 +201,7 @@
 (use-package projectile
   :straight t
   :after org
+  :init (message "Configuring projectile")
   :bind (:map evil-motion-state-map
 	      ("s-," . projectile-command-map)
 	      :map org-agenda-mode-map
@@ -219,5 +210,6 @@
 		projectile-completion-system 'ivy)
   (projectile-mode +1))
 
-(provide 'overall-configs)
+
+(provide 'config-general)
 ;;; overall_configurations ends here

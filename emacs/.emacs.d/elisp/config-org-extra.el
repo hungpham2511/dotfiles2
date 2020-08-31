@@ -3,8 +3,9 @@
 ; Simple snippets to use with init.el
 (require 'org)
 (require 'org-agenda)
-(require 'org-bibtex)
+(require 'ol-bibtex) ;; org-bibtex, for some reason its name is ol-bibtex
 (require 'counsel)
+
 
 ;;; Code:
 (defun org-random-entry-TOREAD ()
@@ -163,5 +164,4 @@ Example:
 	(beginning-of-line)
 	(org-reveal)))))
 
-
-(provide 'my-org-configs)
+(provide 'config-org-extra)

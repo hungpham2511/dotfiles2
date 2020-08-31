@@ -1,6 +1,7 @@
 # -*- mode: snippet -*-
 # name: equation* block
 # key: e*
+# expand-env: ((yas-indent-line 'fixed))
 # --
 \begin{equation*}
 $0

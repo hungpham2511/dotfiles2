@@ -159,5 +159,5 @@ Also, switch to that buffer."
 	      (lambda ()
 		(define-key python-mode-map (kbd "C-c C-o") 'python-occur-definitions)))
 
-(provide 'python-configs)
+(provide 'config-python)
 ;;; python-configs.el ends here

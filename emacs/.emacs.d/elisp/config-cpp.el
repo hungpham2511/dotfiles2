@@ -36,4 +36,4 @@
                           (require 'lsp-python-ms)
                           (lsp))))  ; or lsp-deferred
 
-(provide 'cpp-configs)
+(provide 'config-cpp)

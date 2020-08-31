@@ -32,5 +32,5 @@
   (message "Loaded solarized theme"))
 
 
-(provide 'theme)
+(provide 'config-theme)
 ;;; theme.el ends here
