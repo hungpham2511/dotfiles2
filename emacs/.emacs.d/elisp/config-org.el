@@ -44,8 +44,8 @@
 	     ((tags "+project/-DONE-someday-probnever")
 	      (stuck "")
 	      (agenda "" )
-	      (tags "+inprogress/TODO")
-	      (tags "-backlog-habit-inprogress/TODO"
+	      (tags "+review/TODO")
+	      (tags "-backlog-habit-review/TODO"
 		    ((org-agenda-sorting-strategy
 		      '((tags priority-down category-up )))))
 	      (tags "+backlog+TODO=\"TODO\"|+refile")

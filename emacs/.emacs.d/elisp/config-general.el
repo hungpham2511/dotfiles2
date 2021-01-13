@@ -161,6 +161,7 @@
 (use-package ivy
   :diminish t
   :straight t
+  :demand
   :bind (("C-x C-c" . ivy-switch-buffer)
 	 ("C-c C-r" . ivy-resume))
   :config

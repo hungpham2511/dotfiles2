@@ -3,10 +3,17 @@
 ; Simple snippets to use with init.el
 ;;; Code:
 
+(use-package lsp-python-ms
+  :straight t
+  :demand
+  :init (setq lsp-python-ms-auto-install-server t)
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp))))  ; or lsp-deferred
+
 ;; For some reasons I need to have an active python environment,
 ;; otherwise emacs will complain. Strange, need to investigate this
 ;; problem.
-
 
 ;; emacs company jedi work with ros
 (use-package company-jedi
@@ -77,7 +84,7 @@ VENV-NAME then select it."
 Also, switch to that buffer."
   (interactive)
   (let ((list-matching-lines-face nil))
-    (occur "^ *\\(def\\|class\\|cdef\\|cpdef\\) "))
+    (occur "^ *\\(def\\|class\\|cdef\\|cpdef\\|async def\\) "))
   (let ((window (get-buffer-window "*Occur*")))
     (if window
         (select-window window)
@@ -159,5 +166,5 @@ Also, switch to that buffer."
 	      (lambda ()
 		(define-key python-mode-map (kbd "C-c C-o") 'python-occur-definitions)))
 
-(provide 'config-python)
+(provide 'internal-config-python)
 ;;; python-configs.el ends here

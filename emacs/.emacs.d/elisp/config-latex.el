@@ -55,6 +55,8 @@
 (use-package cdlatex
   :straight t)
 
+
+
 ;; Use for managing references. very useful
 (use-package ivy-bibtex
   :straight t
@@ -67,8 +69,7 @@
     (setq bibtex-completion-bibliography
 	  '(
 	    "~/Dropbox/BookandPaper/biblio/library.bib"
-	    "~/Dropbox/BookandPaper/biblio/library_misc.bib"
-	    ))
+	    "~/Dropbox/BookandPaper/biblio/library_misc.bib"))
 
     ;; (setq bibtex-completion-notes-path "~/org/papers.org")
     (setq bibtex-completion-notes-path "~/org/readingnotes")

@@ -19,7 +19,6 @@ ibus-daemon &
 nm-applet &
 dropbox start &
 
-emacs &
 x-terminal-emulator &
 slack &
 

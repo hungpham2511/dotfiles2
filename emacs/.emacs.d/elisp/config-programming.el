@@ -1,9 +1,32 @@
 ;; setup c++ programming
-(use-package config-cpp
-  :load-path "."
-  :demand)
+(require 'google-c-style)
+(message "Configuring c++ code-style")
 
-(use-package config-python
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+
+(use-package cmake-mode
+  :straight t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+					;     Code completion with cqueery   ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package lsp-mode
+  :hook (c++-mode . lsp)
+  :straight t
+  :commands lsp
+  :config
+  (setq gc-cons-threshold (* 1000 1024 1024))
+  (setq read-process-output-max (* 8 1048 1024)) ;; 1mb
+  (setq lsp-completion-provider :capf)
+  )
+
+;; ;; optionally
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :straight t)
+
+(use-package internal-config-python
   :load-path "."
   :demand)
 
@@ -66,8 +89,10 @@
   :config
   (yas-global-mode 1)
   (setq yas-snippet-dirs
-	'("/home/hung/.emacs.d/etc/yasnippet/snippets/" yasnippet-snippets-dir "/home/hung/.emacs.d/snippets"))
-  )
+	'("/home/hung/.emacs.d/etc/yasnippet/snippets/"
+	  yasnippet-snippets-dir
+	  "/home/hung/.emacs.d/snippets"))
+  (yas-reload-all))
 
 (use-package markdown-mode
   :straight t
