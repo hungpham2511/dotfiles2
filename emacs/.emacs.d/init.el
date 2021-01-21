@@ -20,6 +20,7 @@
 ;; bindings for different packages.
 (straight-use-package 'use-package)
 
+
 ; Sub modules loadpath
 (add-to-list 'load-path "~/.emacs.d/elisp/")
 (eval-when-compile

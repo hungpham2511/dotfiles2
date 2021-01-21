@@ -1,4 +1,4 @@
-;; setup c++ programming
+;; This file contains my setup for the programming part.
 (require 'google-c-style)
 (message "Configuring c++ code-style")
 
@@ -8,16 +8,21 @@
 (use-package cmake-mode
   :straight t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-					;     Code completion with cqueery   ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package prescient
+  :straight t)
+
+(use-package ivy-prescient
+  :straight t
+  :config
+  (ivy-prescient-mode t))
+
 (use-package lsp-mode
   :hook (c++-mode . lsp)
   :straight t
   :commands lsp
   :config
-  (setq gc-cons-threshold (* 1000 1024 1024))
-  (setq read-process-output-max (* 8 1048 1024)) ;; 1mb
+  (setq gc-cons-threshold 500000000) ;; 500mb
+  (setq read-process-output-max (* 8 1024 1024)) ;; 8mb
   (setq lsp-completion-provider :capf)
   )
 
@@ -130,9 +135,12 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 1)
   ;; Disable company in org-mode because it's super slow.
-  (setq company-global-modes '(not org-mode))
-  )
+  (setq company-global-modes '(not org-mode)))
 
+(use-package company-prescient
+  :straight t
+  :config
+  (company-prescient-mode t))
 
 (use-package smartparens
   :straight t
@@ -164,5 +172,6 @@
     (show-smartparens-global-mode)
     (smartparens-global-mode)
     (set-face-foreground 'sp-show-pair-match-face "#8ec07c")))
+
 
 (provide 'config-programming)

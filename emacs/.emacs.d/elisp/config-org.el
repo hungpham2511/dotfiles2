@@ -205,7 +205,7 @@
 	 (org-mode . org-roam-mode)
 	 (after-init . org-roam--build-cache-async) ;; optional!
 	 )
-  :straight (:host github :repo "jethrokuan/org-roam" :branch "develop")
+  :straight (:host github :repo "org-roam/org-roam" :tag "master")
   :custom
   (org-roam-directory "/home/hung/org/")
   (org-roam-link-title-format (lambda (title) (s-upper-camel-case title)))
@@ -216,6 +216,21 @@
   ("C-c n i" . org-roam-insert)
   ("C-c n g" . org-roam-graph-show))
 
+;; (use-package org-roam-server
+;;   :ensure t
+;;   :straight (:source melpa)
+;;   :config
+;;   (setq org-roam-server-host "127.0.0.1"
+;;         org-roam-server-port 8080
+;;         org-roam-server-authenticate nil
+;;         org-roam-server-export-inline-images t
+;;         org-roam-server-serve-files nil
+;;         org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+;;         org-roam-server-network-poll t
+;;         org-roam-server-network-arrows nil
+;;         org-roam-server-network-label-truncate t
+;;         org-roam-server-network-label-truncate-length 60
+;;         org-roam-server-network-label-wrap-length 20))
 
 ;; Very nice package for navigating notes. Complementary to org-roam
 ;; very well.
