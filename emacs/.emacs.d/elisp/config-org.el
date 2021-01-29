@@ -208,17 +208,30 @@
   :straight (:host github :repo "org-roam/org-roam" :tag "master")
   :custom
   (org-roam-directory "/home/hung/org/")
-  (org-roam-link-title-format (lambda (title) (s-upper-camel-case title)))
+  ;; (org-roam-link-title-format (lambda (title type) (s-upper-camel-case title)))
+  (org-roam-link-title-format "%s")
+  (org-roam-graph-viewer "/usr/bin/google-chrome")
+  (org-roam-completion-system 'ivy)
+  
   :bind
   ("C-c n l" . org-roam)
-  ("C-c n t" . org-roam-today)
   ("C-c n f" . org-roam-find-file)
   ("C-c n i" . org-roam-insert)
-  ("C-c n g" . org-roam-graph-show))
+  ("C-c n g" . org-roam-graph-show)
+
+  ("C-c n t" . org-roam-dailies-today)
+  ("C-c n p" . org-roam-dailies-find-previous-note)
+  ("C-c n n" . org-roam-dailies-find-next-note)
+  ("C-c n d" . org-roam-dailies-find-directory)
+  
+  :config
+  (require 'org-roam-protocol)
+
+  )
 
 ;; (use-package org-roam-server
 ;;   :ensure t
-;;   :straight (:source melpa)
+;;   :straight t
 ;;   :config
 ;;   (setq org-roam-server-host "127.0.0.1"
 ;;         org-roam-server-port 8080

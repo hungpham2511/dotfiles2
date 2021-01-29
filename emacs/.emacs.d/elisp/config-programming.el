@@ -1,9 +1,22 @@
 ;; This file contains my setup for the programming part.
 (require 'google-c-style)
 (message "Configuring c++ code-style")
-
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-hook 'c-mode-common-hook 'google-set-c-style)
+
+(use-package plantuml-mode
+  :ensure t
+  :straight t
+  :config
+  (setq plantuml-jar-path "/opt/plantuml/plantuml.jar")
+  (setq plantuml-default-exec-mode 'jar))
+
+(use-package feature-mode
+  :straight t
+  :ensure t)
+
+(use-package jenkinsfile-mode
+  :straight t)
 
 (use-package cmake-mode
   :straight t)
@@ -23,8 +36,7 @@
   :config
   (setq gc-cons-threshold 500000000) ;; 500mb
   (setq read-process-output-max (* 8 1024 1024)) ;; 8mb
-  (setq lsp-completion-provider :capf)
-  )
+  (setq lsp-completion-provider :capf))
 
 ;; ;; optionally
 (use-package lsp-ui

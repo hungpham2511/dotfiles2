@@ -39,7 +39,7 @@
 (use-package evil
   :straight t
   :bind (:map evil-normal-state-map
-	      ("C-f" . evil-avy-goto-char))
+              ("C-f" . evil-avy-goto-char))
   :demand
   :config
   (evil-mode t)

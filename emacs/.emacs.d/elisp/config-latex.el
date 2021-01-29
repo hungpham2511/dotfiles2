@@ -71,7 +71,6 @@
 	    "~/Dropbox/BookandPaper/biblio/library.bib"
 	    "~/Dropbox/BookandPaper/biblio/library_misc.bib"))
 
-    ;; (setq bibtex-completion-notes-path "~/org/papers.org")
     (setq bibtex-completion-notes-path "~/org/readingnotes")
     (setq bibtex-completion-notes-template-multiple-files
 	  "#+TITLE: (${year}): ${title} 
