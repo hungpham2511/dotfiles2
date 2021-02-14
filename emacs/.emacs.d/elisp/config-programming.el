@@ -1,4 +1,5 @@
-;; This file contains my setup for the programming part.
+; This file contains my setup for the programming part.
+(require 'general)
 (require 'google-c-style)
 (message "Configuring c++ code-style")
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
@@ -36,7 +37,16 @@
   :config
   (setq gc-cons-threshold 500000000) ;; 500mb
   (setq read-process-output-max (* 8 1024 1024)) ;; 8mb
-  (setq lsp-completion-provider :capf))
+  (setq lsp-completion-provider :capf)
+
+  (add-hook 'go-mode-hook #'lsp-deferred)
+  
+  ;; Set up before-save hooks to format buffer and add/delete imports.
+  ;; Make sure you don't have other gofmt/goimports hooks enabled.
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks))
 
 ;; ;; optionally
 (use-package lsp-ui
@@ -144,10 +154,11 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode)
 
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 0.0)
   (setq company-minimum-prefix-length 1)
   ;; Disable company in org-mode because it's super slow.
-  (setq company-global-modes '(not org-mode)))
+  (setq company-global-modes '(not org-mode))
+  )
 
 (use-package company-prescient
   :straight t
@@ -156,34 +167,41 @@
 
 (use-package smartparens
   :straight t
+  :after general
   :commands smartparens-global-mode
-  :bind (:map evil-normal-state-map
-	      ;; Most important commands. Move within the sexp.
-	      ("C-M-a" . sp-beginning-of-sexp)
-	      ("C-M-e" . sp-end-of-sexp)
-	      ("C-M-f" . sp-forward-sexp)
-	      ("C-M-b" . sp-backward-sexp)
-
-	      ;; move between sexp of the same level
-	      ("M-l" . sp-next-sexp)
-	      ("M-h" . sp-backward-sexp)
-
-	      ;; move between symbols
-	      ("M-f" . sp-forward-symbol)
-	      ("M-b" . sp-backward-symbol)
-
-	      ("M-j" . sp-down-sexp)
-	      ("M-k" . sp-backward-up-sexp)
-	 )
+ 
   :config
-  (progn
-    (require 'smartparens-config)
-    (sp-local-pair 'org-mode "$" "$")
-    (eval-after-load 'org-mode     '(require 'smartparens-org))
-    (eval-after-load 'python-mode   '(require 'smartparens-python))
-    (show-smartparens-global-mode)
-    (smartparens-global-mode)
-    (set-face-foreground 'sp-show-pair-match-face "#8ec07c")))
+  (require 'smartparens-config)
+  (sp-local-pair 'org-mode "$" "$")
+  (eval-after-load 'org-mode     '(require 'smartparens-org))
+  (eval-after-load 'python-mode   '(require 'smartparens-python))
+  (show-smartparens-global-mode)
+  (smartparens-global-mode)
+  (set-face-foreground 'sp-show-pair-match-face "#8ec07c")
+
+  ;; Most important commands. Move within the sexp.
+  (general-define-key
+   :states '(motion visual insert)
+   
+   "C-M-a" 'sp-beginning-of-sexp
+   "C-M-e" 'sp-end-of-sexp
+   "C-M-f" 'sp-forward-sexp
+   "C-M-b" 'sp-backward-sexp
+
+   ;; Move between sexp of the same level then move between sexp
+   ;; levels. These are very useful shortcuts.
+   "M-l" 'sp-next-sexp
+   "M-h" 'sp-backward-sexp
+   "M-j" 'sp-down-sexp
+   "M-k" 'sp-backward-up-sexp
+   
+   ;; move between symbols
+   "M-f" 'sp-forward-symbol
+   "M-b" 'sp-backward-symbol
+   
+   "C-c f s" 'sp-forward-slurp-sexp
+   "C-c f b" 'sp-forward-barf-sexp
+  ))
 
 
 (provide 'config-programming)

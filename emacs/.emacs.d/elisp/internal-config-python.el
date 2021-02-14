@@ -10,6 +10,10 @@
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
                           (lsp))))  ; or lsp-deferred
+(use-package python-utils
+  :after projectile
+  :load-path "python-utils.el"
+  :demand)
 
 ;; For some reasons I need to have an active python environment,
 ;; otherwise emacs will complain. Strange, need to investigate this
@@ -78,17 +82,41 @@ VENV-NAME then select it."
 
 
 ;; very useful function.
+(defun occur-mode-clean-buffer ()
+  "Removes all commentary from the *Occur* buffer, leaving the
+   unadorned lines."
+  (interactive)
+  (if (get-buffer "*Occur*")
+      (save-excursion
+	(set-buffer (get-buffer "*Occur*"))
+	(goto-char (point-min))
+	(toggle-read-only 0)
+	(if (looking-at "^[0-9]+ lines matching \"")
+	    (kill-line 1))
+	(while (re-search-forward "^[ \t]*[0-9]+:" (point-max) t)
+	  (replace-match "")
+	  (forward-line 1))
+	(goto-char (point-min))
+	(while (re-search-forward "^# " (point-max) t)
+	  (replace-match "")
+	  (forward-line 1))
+	(toggle-read-only 1))
+
+    (message "There is no buffer named \"*Occur*\".")))
+
 (defun python-occur-definitions ()
   "Display an occur buffer of all definitions in the current buffer.
 
-Also, switch to that buffer."
+  Also, switch to that buffer."
   (interactive)
   (let ((list-matching-lines-face nil))
-    (occur "^ *\\(def\\|class\\|cdef\\|cpdef\\|async def\\) "))
+    (occur "^ *\\(def\\|class\\|cdef\\|cpdef\\) \\|# #"))
+  (occur-mode-clean-buffer)
   (let ((window (get-buffer-window "*Occur*")))
     (if window
-        (select-window window)
+	(select-window window)
       (switch-to-buffer "*Occur*"))))
+
 
 (defun python--list-defs-in-buffer ()
   "List definitions found in current buffer."

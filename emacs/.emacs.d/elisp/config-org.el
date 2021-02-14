@@ -1,16 +1,12 @@
 ;; Load and build org mode
 (use-package org
   :straight org-plus-contrib
-  :bind (("C-c l" . org-store-link)
-	 ("C-c a" . org-agenda)
-	 ("C-c x" . org-capture)
-	 ("C-c C-x C-j" . org-clock-goto)
-	 :map org-mode-map
-	 ("C-c c" . org-export-latex-custom)
-	 ("C-c C-p" . org-previous-visible-heading)
-	 :map org-agenda-mode-map
-	 ("j" . org-agenda-next-item)
-	 ("k" . org-agenda-previous-item))
+  :after evil-nerd-commenter
+  :general
+  ("C-c l" 'org-store-link)
+  ("C-c a" 'org-agenda)
+  ("C-c x" 'org-capture)
+  ("C-c h j" 'org-clock-goto)
   :demand
   :config
   (progn
@@ -163,11 +159,14 @@
      '((emacs-lisp . t)
        (python . t)
        (latex . t)
+       (shell . t)
        (plantuml . t)))
 
     (add-to-list
      'org-src-lang-modes '("plantuml" . plantuml))
     (setq org-src-fontify-natively t))
+
+ 
   )
 
 (use-package org-habit
@@ -191,7 +190,8 @@
 
 (use-package ox-hugo
   :after org
-  :straight t
+  :straight (ox-hugo :host github
+                     :repo "hungpham2511/ox-hugo")
   :demand)
 
 ;; To manage links between org notes, I use org-roam. This is a really
@@ -208,26 +208,22 @@
   :straight (:host github :repo "org-roam/org-roam" :tag "master")
   :custom
   (org-roam-directory "/home/hung/org/")
-  ;; (org-roam-link-title-format (lambda (title type) (s-upper-camel-case title)))
   (org-roam-link-title-format "%s")
   (org-roam-graph-viewer "/usr/bin/google-chrome")
   (org-roam-completion-system 'ivy)
   
-  :bind
-  ("C-c n l" . org-roam)
-  ("C-c n f" . org-roam-find-file)
-  ("C-c n i" . org-roam-insert)
-  ("C-c n g" . org-roam-graph-show)
+  :general
+  ("C-c n l" 'org-roam)
+  ("C-c n f" 'org-roam-find-file)
+  ("C-c n i" 'org-roam-insert)
+  ("C-c n g" 'org-roam-graph-show)
+  ("C-c n t" 'org-roam-dailies-today)
+  ("C-c n p" 'org-roam-dailies-find-previous-note)
+  ("C-c n n" 'org-roam-dailies-find-next-note)
+  ("C-c n d" 'org-roam-dailies-find-directory)
 
-  ("C-c n t" . org-roam-dailies-today)
-  ("C-c n p" . org-roam-dailies-find-previous-note)
-  ("C-c n n" . org-roam-dailies-find-next-note)
-  ("C-c n d" . org-roam-dailies-find-directory)
-  
   :config
-  (require 'org-roam-protocol)
-
-  )
+  (require 'org-roam-protocol))
 
 ;; (use-package org-roam-server
 ;;   :ensure t
@@ -265,9 +261,14 @@
 	  (nospace . "-")
 	  (case-fn . downcase))))
 
+;; extract library
 (use-package config-org-extra
   :load-path "."
-  :after org)
-
+  :after org counsel
+  :config
+  (general-define-key
+   :states 'motion
+   :keymaps 'org-mode-map
+   "C-c c" 'org-export-latex-custom))
 
 (provide 'config-org)

@@ -97,10 +97,4 @@ This function tries to format the current buffer using the black code formatter.
     (error "Err: Not a python buffer")))
 
 
-(general-define-key
- :states 'motion
- ;; "M-t" 'kata/count-lines
- "M-t" 'kata/blacken)
-
-
 (provide 'katas)

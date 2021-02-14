@@ -4,8 +4,7 @@
 
 ;;; Code:
 ;; System configuraitons
-(global-set-key (kbd "C-c e") 'eval-region)
-(straight-use-package 'general)
+(require 'general)
 
 ;; Prevent littering from ~ files
 (use-package no-littering
@@ -21,7 +20,6 @@
   :config
   (rg-enable-default-bindings))
 
-
 ;; Use to show the available key bindings. Press the prefix key
 ;; combination then wait for 1 second.
 (use-package which-key
@@ -33,7 +31,14 @@
 ;; magit: the git porcelain
 (use-package magit
   :straight t
-  :bind ("C-x C-z" . magit-status))
+  :config
+  (general-define-key
+   :states '(normal visual insert)
+   :keymaps 'magit-file-mode-map
+   "C-x C-z" 'magit-status
+   "C-c g" 'magit-file-dispatch
+   "C-c M-g" 'magit-dispatch)
+  )
 
 ;; Install evil and its friends
 (use-package evil
@@ -88,6 +93,16 @@
     (kbd "N")       'evil-search-previous
     (kbd "C-d")     'evil-scroll-down
     (kbd "C-i")     'evil-scroll-up)
+  
+  ;; key for editing
+  (general-define-key
+   :states 'insert
+   "C-n" 'next-line
+   "C-p" 'previous-line
+   "C-k" 'kill-line
+   "C-e" 'end-of-line
+   "C-a" 'beginning-of-line
+   )
 
   )
 
@@ -95,8 +110,14 @@
   :after evil
   :straight t
   :config
-  ;; Evilnc keys must set up before org-capture
-  (evilnc-default-hotkeys))
+  (general-define-key
+   :states '(normal visual)
+   ",ci" 'evilnc-comment-or-uncomment-lines
+   ",cl" 'evilnc-comment-or-uncomment-to-the-line
+   ",cc" 'evilnc-copy-and-comment-lines
+   ",cp" 'evilnc-comment-or-uncomment-paragraphs
+   )
+  )
 
 (use-package evil-surround
   :straight t
@@ -122,7 +143,6 @@
   :straight t
   :after magit evil)
 
-
 ;; A move for navigation, jummping around basically
 (use-package ace-jump-mode
   :straight t
@@ -130,17 +150,6 @@
   (message "ace-jump-mode loaded"))
 
 (straight-use-package 'ace-link)
-
-;; Define key binding here. Quite useful.
-(general-define-key
- :states 'motion
- "SPC" 'hydra-window/body
- "C-SPC k" 'general-describe-keybindings
- "C-s" 'isearch-forward
- "f" 'ace-jump-mode
- "C-f" 'ace-link)
-
-
 (setq dired-listing-switches "-lah")
 
 (use-package smex
@@ -150,20 +159,20 @@
 (use-package counsel
   :straight t
   :demand
-  :after smex
-  :bind (("C-s" . swiper)
-	 ("M-x" . counsel-M-x)
-	 ("<f1>" . counsel-M-x)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-c k" . counsel-ag)))
-
+  :after smex ivy
+  :general
+  ("C-s" 'swiper-isearch)
+  ("M-x" 'counsel-M-x)
+  ("C-x C-f"  'counsel-find-file)
+  ("C-c k" 'counsel-ag))
 
 (use-package ivy
   :diminish t
   :straight t
   :demand
-  :bind (("C-x C-c" . ivy-switch-buffer)
-	 ("C-c C-r" . ivy-resume))
+  :general
+  ("C-x C-c" 'ivy-switch-buffer)
+  ("C-c C-r" 'ivy-resume)
   :config
   (ivy-mode 1)
   (setq ivy-count-format "(%d/%d) ")
@@ -203,12 +212,11 @@
   :straight t
   :after org
   :init (message "Configuring projectile")
-  :bind (:map evil-motion-state-map
-	      ("s-," . projectile-command-map)
-	      :map org-agenda-mode-map
-	      ("s-," . projectile-command-map))
+  :general 
+  ("s-," 'projectile-command-map)
+  
   :config (setq projectile-indexing-method 'hybrid
-		projectile-completion-system 'ivy)
+                projectile-completion-system 'ivy)
   (projectile-mode +1))
 
 

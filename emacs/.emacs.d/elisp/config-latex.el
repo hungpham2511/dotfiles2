@@ -1,4 +1,5 @@
 ;; pdf-tools for viewing pdf in emacs
+(require 'general)
 (use-package pdf-tools
   :straight t
   :bind (:map pdf-view-mode-map
@@ -55,12 +56,12 @@
 (use-package cdlatex
   :straight t)
 
-
-
 ;; Use for managing references. very useful
 (use-package ivy-bibtex
   :straight t
   :commands 'ivy-bibtex
+  :general
+  ("C-c C-p" 'ivy-bibtex)
   :config
   (progn
     (setq ivy-re-builders-alist
@@ -78,17 +79,11 @@
 #+YEAR: ${year}
 "
 	  )
-
     ;; this allows bibtex-search to find tags in addition to other field
     (setq bibtex-completion-additional-search-fields '(tags journal))
     (setq bibtex-completion-library-path '("~/Dropbox/BookandPaper/Papers"))
     )
   )
-
-;; Define key binding here. Quite useful.
-(general-define-key
- :states 'motion
- "C-c C-p" 'ivy-bibtex)
 
 (provide 'config-latex)
 

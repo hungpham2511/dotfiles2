@@ -6,7 +6,6 @@
 (require 'ol-bibtex) ;; org-bibtex, for some reason its name is ol-bibtex
 (require 'counsel)
 
-
 ;;; Code:
 (defun org-random-entry-TOREAD ()
   "Randomly select a paper to read."
