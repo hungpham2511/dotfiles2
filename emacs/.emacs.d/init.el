@@ -175,7 +175,8 @@
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(safe-local-variable-values
-   '((lsp-python-ms-extra-paths .
+   '((git-commit-major-mode . git-commit-elisp-text-mode)
+     (lsp-python-ms-extra-paths .
                                 ["/home/hung/eureka/eureka/packages/optics-handling/optics_handling_perception/src" "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_control/src" "/home/hung/eureka/eureka/packages/denso_common/denso_control/src" "/home/hung/eureka/eureka/packages/denso_common/turin_control/src" "/home/hung/eureka/eureka/packages/eureka-controller/"])
      (checkdoc-package-keywords-flag)
      (eval require 'org-roam-dev)

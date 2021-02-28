@@ -1,4 +1,4 @@
-;; Load and build org mode
+;; Load and build org mode. 
 (use-package org
   :straight org-plus-contrib
   :after evil-nerd-commenter
@@ -164,9 +164,11 @@
 
     (add-to-list
      'org-src-lang-modes '("plantuml" . plantuml))
-    (setq org-src-fontify-natively t))
-
- 
+    (setq org-src-fontify-natively t)
+    (defun org-mode-backend-hook ()
+      (setq company-backends '((company-ispell company-dabbrev company-yasnippet company-files))))
+    (add-hook 'org-mode-hook 'org-mode-backend-hook)
+    )
   )
 
 (use-package org-habit
@@ -223,7 +225,13 @@
   ("C-c n d" 'org-roam-dailies-find-directory)
 
   :config
-  (require 'org-roam-protocol))
+  (require 'org-roam-protocol)
+  (setq org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           #'org-roam-capture--get-point
+           "* %?"
+           :file-name "daily/%<%Y-%m-%d>"
+           :head "#+title: %<%Y-%m-%d>\n\n"))))
 
 ;; (use-package org-roam-server
 ;;   :ensure t

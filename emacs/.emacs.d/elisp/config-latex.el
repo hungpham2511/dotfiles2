@@ -1,5 +1,6 @@
 ;; pdf-tools for viewing pdf in emacs
 (require 'general)
+
 (use-package pdf-tools
   :straight t
   :bind (:map pdf-view-mode-map
@@ -60,8 +61,7 @@
 (use-package ivy-bibtex
   :straight t
   :commands 'ivy-bibtex
-  :general
-  ("C-c C-p" 'ivy-bibtex)
+  :general ("C-c n p" 'ivy-bibtex)
   :config
   (progn
     (setq ivy-re-builders-alist
@@ -71,7 +71,6 @@
 	  '(
 	    "~/Dropbox/BookandPaper/biblio/library.bib"
 	    "~/Dropbox/BookandPaper/biblio/library_misc.bib"))
-
     (setq bibtex-completion-notes-path "~/org/readingnotes")
     (setq bibtex-completion-notes-template-multiple-files
 	  "#+TITLE: (${year}): ${title} 

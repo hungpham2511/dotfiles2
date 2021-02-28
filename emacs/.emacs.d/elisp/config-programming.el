@@ -5,6 +5,17 @@
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
 (add-hook 'c-mode-common-hook 'google-set-c-style)
 
+;; Setup company mode integration fd
+(defun company-emacs-lisp ()
+  "Setup completion for emacs lisp "
+  (message "Setup company mode for emacs-lisp")
+  (setq-local company-backends '((company-capf company-files) company-ispell)))
+(add-hook 'emacs-lisp-mode-hook 'company-emacs-lisp)
+
+(use-package protobuf-mode
+  :ensure t
+  :straight t)
+
 (use-package plantuml-mode
   :ensure t
   :straight t
@@ -20,7 +31,11 @@
   :straight t)
 
 (use-package cmake-mode
-  :straight t)
+  :straight t
+  :config
+  (defun -company-cmake-mode ()
+    (setq-local company-backends '(company-cmake)))
+  (add-hook 'cmake-mode-hook '-company-cmake-mode))
 
 (use-package prescient
   :straight t)
@@ -38,6 +53,11 @@
   (setq gc-cons-threshold 500000000) ;; 500mb
   (setq read-process-output-max (* 8 1024 1024)) ;; 8mb
   (setq lsp-completion-provider :capf)
+  (setq lsp-ui-sideline-show-code-actions t)
+  (setq lsp-modeline-code-actions-enable t)
+  (setq lsp-ui-sideline-enable t)
+
+  ;; (setq lsp-completion-provider :capf)
 
   (add-hook 'go-mode-hook #'lsp-deferred)
   
@@ -146,7 +166,8 @@
 	 ("<f3>" . highlight-symbol-next)
 	 ("S-<f3>" . highlight-symbol-prev)))
 
-;; Completion package
+;; Configure company-mode for auto completion.
+;;
 (use-package company
   :straight t
   :demand
@@ -154,11 +175,31 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode)
 
-  (setq company-idle-delay 0.0)
+  (setq company-idle-delay 0.2)
   (setq company-minimum-prefix-length 1)
-  ;; Disable company in org-mode because it's super slow.
-  (setq company-global-modes '(not org-mode))
-  )
+  (setq company-show-numbers t)
+
+  ;; This variable, if set to t or "all", generate alots of completion
+  ;; candidates. This uses up alots of memory.
+  (setq company-dabbrev-other-buffers nil)
+  (setq company-dabbrev-time-limit 0.05)
+
+  (general-define-key
+   :keymaps 'company-active-map
+   "C-o" 'company-show-location
+   "C-s" 'company-search-candidates
+   "M-n" 'company-select-next
+   "M-p" 'company-select-previous))
+
+;; Configure company-quickhelp to view the documentation of current
+;; completion candidates. After installing a doc-buffer will show up
+;; for the current highlighted candidate.  Homepage
+;; https://github.com/company-mode/company-quickhelp
+(use-package company-quickhelp
+  :straight t
+  :ensure
+  :config
+  (company-quickhelp-mode))
 
 (use-package company-prescient
   :straight t
@@ -169,7 +210,7 @@
   :straight t
   :after general
   :commands smartparens-global-mode
- 
+  
   :config
   (require 'smartparens-config)
   (sp-local-pair 'org-mode "$" "$")
@@ -201,7 +242,7 @@
    
    "C-c f s" 'sp-forward-slurp-sexp
    "C-c f b" 'sp-forward-barf-sexp
-  ))
+   ))
 
 
 (provide 'config-programming)

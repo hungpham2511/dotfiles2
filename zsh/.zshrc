@@ -186,5 +186,3 @@ alias arcr='docker exec -it dev-env entrypoint'
 autoload -Uz compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc
-
-

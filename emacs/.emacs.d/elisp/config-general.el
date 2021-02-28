@@ -38,7 +38,10 @@
    "C-x C-z" 'magit-status
    "C-c g" 'magit-file-dispatch
    "C-c M-g" 'magit-dispatch)
-  )
+  (general-define-key
+   :states '(normal visual insert)
+   "C-x C-z" 'magit-status))
+
 
 ;; Install evil and its friends
 (use-package evil
@@ -102,6 +105,8 @@
    "C-k" 'kill-line
    "C-e" 'end-of-line
    "C-a" 'beginning-of-line
+   "C-i" 'scroll-up-half-page
+   "C-d" 'scroll-down-half-page
    )
 
   )
@@ -219,6 +224,16 @@
                 projectile-completion-system 'ivy)
   (projectile-mode +1))
 
+(use-package hydra
+  :straight t
+  :after org general
+  :config
+  (defhydra hybra-org-roam (global-map "C-c n")
+    "roam"
+    ("p" org-roam-dailies-find-previous-note "previous")
+    ("n" org-roam-dailies-find-next-note "next")
+    ("t" org-roam-dailies-find-today "today") 
+    ("f" org-roam-dailies-find-date "date")))
 
 (provide 'config-general)
 ;;; overall_configurations ends here

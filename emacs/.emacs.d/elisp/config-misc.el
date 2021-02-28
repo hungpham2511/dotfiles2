@@ -13,5 +13,14 @@
   (interactive "sEnter Search Entry: ")
   (find-dired "~/Dropbox/" (concat "-iname " "'*" args "*'")))
 
+(defun h/show-backends ()
+  (interactive)
+  (prin1 company-backends))
+
+(defun h/company-set-python-backends ()
+  (interactive)
+  (setq-local company-backends '(company-dabbrev-code))
+  )
+
 (provide 'config-misc)
 ;;; hello.el ends here

@@ -3,13 +3,21 @@
 ; Simple snippets to use with init.el
 ;;; Code:
 
+;; (use-package lsp-pyright
+;;   :demand
+;;   :straight t
+;;   ;; :hook (python-mode . (lambda () (require 'lsp-pyright)))
+;;   )
+
 (use-package lsp-python-ms
   :straight t
   :demand
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
-                          (require 'lsp-python-ms)
-                          (lsp))))  ; or lsp-deferred
+                         (require 'lsp-python-ms)
+                         (lsp-deferred)
+                         )))
+
 (use-package python-utils
   :after projectile
   :load-path "python-utils.el"
