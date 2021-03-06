@@ -57,7 +57,7 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(
     docker-compose
     git python pip web-search virtualenvwrapper autopep8 pass vagrant z docker
-    git-flow
+    git-flow fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -186,3 +186,5 @@ alias arcr='docker exec -it dev-env entrypoint'
 autoload -Uz compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

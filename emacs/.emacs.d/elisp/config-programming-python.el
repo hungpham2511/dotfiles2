@@ -3,11 +3,10 @@
 ; Simple snippets to use with init.el
 ;;; Code:
 
-;; (use-package lsp-pyright
-;;   :demand
-;;   :straight t
-;;   ;; :hook (python-mode . (lambda () (require 'lsp-pyright)))
-;;   )
+(use-package lsp-pyright
+  :demand
+  :straight t
+  :hook (python-mode . (lambda () (require 'lsp-pyright))))
 
 (use-package lsp-python-ms
   :straight t
@@ -15,29 +14,38 @@
   :init (setq lsp-python-ms-auto-install-server t)
   :hook (python-mode . (lambda ()
                          (require 'lsp-python-ms)
-                         (lsp-deferred)
-                         )))
+                         (lsp-deferred))))
 
-(use-package python-utils
-  :after projectile
-  :load-path "python-utils.el"
-  :demand)
+;; 
+(use-package lsp-jedi
+  :ensure t
+  :straight t
+  :config
+  (with-eval-after-load "lsp-mode"
+    (add-to-list 'lsp-disabled-clients 'pyls)
+    (add-to-list 'lsp-disabled-clients 'mspyls)
+    (add-to-list 'lsp-disabled-clients 'lsp-pyright)
+    (add-to-list 'lsp-enabled-clients 'jedi))
+
+  ;; Configure variables
+  ;; For reference see https://github.com/pappasam/coc-jedi#configuration
+  (setq lsp-jedi-python-library-directories
+        '(
+          "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_perception/src"
+          "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_control/src"
+          "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_calibration/src"
+          "/home/hung/eureka/eureka/packages/denso_common/denso_control/src"
+          "/home/hung/eureka/eureka/packages/denso_common/turin_control/src"
+          "/home/hung/eureka/eureka/packages/eureka-controller/"))
+  (setq lsp-jedi-diagnostics-enable t)
+  (setq lsp-jedi-diagnostics-did-open t)
+  ;; (setq lsp-jedi-diagnostics-did-change t)
+  (setq lsp-jedi-diagnostics-did-save t)
+  )
 
 ;; For some reasons I need to have an active python environment,
 ;; otherwise emacs will complain. Strange, need to investigate this
 ;; problem.
-
-;; emacs company jedi work with ros
-(use-package company-jedi
-  :after company
-  :load-path "~/.emacs.d/git/emacs-company-jedi"
-  :config (progn
-	    (defun my/python-mode-hook ()
-	      (add-to-list 'company-backends 'company-jedi))
-	    (add-hook 'python-mode-hook 'my/python-mode-hook)
-	    (add-hook 'python-mode-hook 'jedi:setup)
-	    (setq jedi:complete-on-dot t))
-  :defer)
 
 ;; (condition-case nil
 ;;     (progn
@@ -48,22 +56,6 @@
 (use-package cython-mode
   :straight t)
 
-;; jedi configuration, main use for python document lookup. work quite
-;; well in general
-(defvar jedi:server-args-with-ros)
-(setq jedi:server-args-with-ros
-      '(;; ros packages
-	;; "--sys-path" "/home/hung/catkin_ws/install/lib/python2.7/dist-packages"
-	"--sys-path" "/opt/ros/kinetic/lib/python2.7/dist-packages"))
-
-(defun jedi:add-sys-path (dir)
-  "Add DIR to jedi:server-args.
-This is needed for auto-completion of packages in DIR."
-  (interactive "fDirectory: ")
-  (setq jedi:server-args-with-ros
-	(append jedi:server-args-with-ros
-		(list "--sys-path" dir))))
-
 (defun list-virtualenvs ()
   "List all virtual env in ~/Envs/."
   (let ((all-file (directory-files "~/Envs/")))
@@ -72,22 +64,6 @@ This is needed for auto-completion of packages in DIR."
        ;; Check if FILE is a virtual environment.
        (file-exists-p (concat "~/Envs/" file "/bin/python")))
      all-file)))
-
-
-(defun jedi:workon (venv-name)
-  "Select virtual environment VENV-NAME and load it.
-
-Append VENV-NAME to jedi:server args, stop the server
-then (restart when needed).  In interactive mode ask for
-VENV-NAME then select it."
-  (interactive
-   (list (completing-read "Select env: " (list-virtualenvs))))
-  (message (concat "Setting jedi with " venv-name))
-  (setq jedi:server-args
-	(append jedi:server-args-with-ros
-		(list "--virtual-env" (concat "~/Envs/" venv-name))))
-  (jedi:stop-server))
-
 
 ;; very useful function.
 (defun occur-mode-clean-buffer ()
@@ -198,9 +174,12 @@ VENV-NAME then select it."
     (insert "        out (FIXME): FIXME\n")
     (insert "    \"\"\"\n")))
 
-(add-hook 'python-mode-hook
-	      (lambda ()
-		(define-key python-mode-map (kbd "C-c C-o") 'python-occur-definitions)))
+(general-define-key
+ :keymaps 'python-mode-map
+ "C-c C-o" 'python-occur-definitions)
 
-(provide 'internal-config-python)
-;;; python-configs.el ends here
+(add-hook 'python-mode-hook
+          (lambda () (setq-local
+                      company-backends '(company-capf company-files))))
+
+(provide 'config-programming-python)

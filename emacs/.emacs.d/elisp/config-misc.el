@@ -19,8 +19,11 @@
 
 (defun h/company-set-python-backends ()
   (interactive)
-  (setq-local company-backends '(company-dabbrev-code))
-  )
+  (setq-local company-backends '(company-dabbrev-code)))
+
+(defun h/set-writing-completion-backends ()
+  (interactive)
+  (setq company-backends '(company-ispell  (company-dabbrev company-yasnippet company-files))))
 
 (provide 'config-misc)
 ;;; hello.el ends here

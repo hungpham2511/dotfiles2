@@ -165,9 +165,10 @@
     (add-to-list
      'org-src-lang-modes '("plantuml" . plantuml))
     (setq org-src-fontify-natively t)
-    (defun org-mode-backend-hook ()
-      (setq company-backends '((company-ispell company-dabbrev company-yasnippet company-files))))
-    (add-hook 'org-mode-hook 'org-mode-backend-hook)
+
+    ;; (defun org-mode-backend-hook ()
+    ;;   (setq company-backends '((company-ispell company-dabbrev company-yasnippet company-files))))
+    ;; (add-hook 'org-mode-hook 'org-mode-backend-hook))
     )
   )
 

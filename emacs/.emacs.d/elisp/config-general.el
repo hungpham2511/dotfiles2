@@ -192,7 +192,7 @@
   ;; configure regexp engine.
   (setq ivy-re-builders-alist
 	;; allow input not in order
-        '((t   . ivy--regex-plus))))
+        '((t   . ivy--regex-fuzzy))))
 
 (use-package neotree
   :straight t
