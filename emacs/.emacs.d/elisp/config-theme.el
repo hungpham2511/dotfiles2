@@ -11,6 +11,8 @@
 
 (use-package all-the-icons
   :straight t)
+(use-package poet-theme
+  :straight t)
 
 (use-package solarized-theme
   :straight t

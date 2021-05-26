@@ -3,55 +3,60 @@
 ; Simple snippets to use with init.el
 ;;; Code:
 
+;; Disable all
+(with-eval-after-load "lsp-mode"
+  (add-to-list 'lsp-disabled-clients 'pyls)
+  (add-to-list 'lsp-disabled-clients 'mspyls)
+  (add-to-list 'lsp-disabled-clients 'lsp-pyright)
+  (add-to-list 'lsp-disabled-clients 'jedi))
+
 (use-package lsp-pyright
   :demand
   :straight t
-  :hook (python-mode . (lambda () (require 'lsp-pyright))))
+  :config
+  (setq lsp-pyright-python-executable-cmd "/home/hung/Envs/p3/bin/python")
+  (setq lsp-pyright-extra-paths
+        '("/home/hung/eureka/eureka/packages/optics-handling/optics_handling_perception/src"
+          "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_control/src"
+          "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_calibration/src"
+          "/home/hung/eureka/eureka/packages/denso_common/denso_control/src"
+          "/home/hung/eureka/eureka/packages/denso_common/turin_control/src"
+          "/home/hung/eureka/eureka/packages/eureka-controller/")))
 
 (use-package lsp-python-ms
   :straight t
   :demand
   :init (setq lsp-python-ms-auto-install-server t)
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-python-ms)
-                         (lsp-deferred))))
+  :config
+  (setq lsp-python-ms-extra-paths
+        '("/home/hung/eureka/eureka/packages/optics-handling/optics_handling_perception/src"
+          "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_control/src"
+          "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_calibration/src"
+          "/home/hung/eureka/eureka/packages/denso_common/denso_control/src"
+          "/home/hung/eureka/eureka/packages/denso_common/turin_control/src"
+          "/home/hung/eureka/eureka/packages/eureka-controller/"))
+  (setq lsp-python-ms-python-executable "/home/hung/Envs/p3/bin/python")
+  )
 
 ;; 
 (use-package lsp-jedi
   :ensure t
   :straight t
   :config
-  (with-eval-after-load "lsp-mode"
-    (add-to-list 'lsp-disabled-clients 'pyls)
-    (add-to-list 'lsp-disabled-clients 'mspyls)
-    (add-to-list 'lsp-disabled-clients 'lsp-pyright)
-    (add-to-list 'lsp-enabled-clients 'jedi))
 
   ;; Configure variables
   ;; For reference see https://github.com/pappasam/coc-jedi#configuration
   (setq lsp-jedi-python-library-directories
-        '(
-          "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_perception/src"
+        '("/home/hung/eureka/eureka/packages/optics-handling/optics_handling_perception/src"
           "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_control/src"
           "/home/hung/eureka/eureka/packages/optics-handling/optics_handling_calibration/src"
           "/home/hung/eureka/eureka/packages/denso_common/denso_control/src"
           "/home/hung/eureka/eureka/packages/denso_common/turin_control/src"
           "/home/hung/eureka/eureka/packages/eureka-controller/"))
+  (setq lsp-jedi-executable-command "/home/hung/Envs/p37/bin/jedi-language-server")
   (setq lsp-jedi-diagnostics-enable t)
   (setq lsp-jedi-diagnostics-did-open t)
-  ;; (setq lsp-jedi-diagnostics-did-change t)
-  (setq lsp-jedi-diagnostics-did-save t)
-  )
-
-;; For some reasons I need to have an active python environment,
-;; otherwise emacs will complain. Strange, need to investigate this
-;; problem.
-
-;; (condition-case nil
-;;     (progn
-;;       (setq venv-location "~/Envs/")
-;;       (venv-workon "ros"))
-;;   (error nil))
+  (setq lsp-jedi-diagnostics-did-save t))
 
 (use-package cython-mode
   :straight t)
@@ -94,8 +99,8 @@
   Also, switch to that buffer."
   (interactive)
   (let ((list-matching-lines-face nil))
-    (occur "^ *\\(def\\|class\\|cdef\\|cpdef\\) \\|# #"))
-  (occur-mode-clean-buffer)
+    (occur "^ *\\(async def\\|def\\|class\\|cdef\\|cpdef\\) \\|# #"))
+  ;; (occur-mode-clean-buffer)
   (let ((window (get-buffer-window "*Occur*")))
     (if window
 	(select-window window)
@@ -174,12 +179,14 @@
     (insert "        out (FIXME): FIXME\n")
     (insert "    \"\"\"\n")))
 
+(add-hook 'python-mode-hook
+          (lambda () (setq-local company-backends
+                                 '(company-dabbrev-code company-files company-capf))))
+
 (general-define-key
  :keymaps 'python-mode-map
+ :state '(motion visual normal insert)
  "C-c C-o" 'python-occur-definitions)
 
-(add-hook 'python-mode-hook
-          (lambda () (setq-local
-                      company-backends '(company-capf company-files))))
 
 (provide 'config-programming-python)

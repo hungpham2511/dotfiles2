@@ -188,3 +188,4 @@ zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ~/.erc2-complete.sh

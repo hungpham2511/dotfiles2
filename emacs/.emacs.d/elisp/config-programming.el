@@ -5,8 +5,9 @@
 (defvar h/python-virtual-env "/home/hung/Envs/p37/bin/python"
   "a var")
 
+(use-package docker-tramp
+  :straight t)
 
-;; finish setting up rust for emacs
 (use-package flycheck
   :straight t
   :demand
@@ -15,6 +16,24 @@
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-clang-language-standard "c++11")))
   (setq flycheck-python-flake8-executable h/python-virtual-env)
   (setq flycheck-flake8rc "/home/hung/dotfiles2/.flake8rc"))
+
+(use-package ggtags
+  :straight t
+  :demand
+  :config 
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+                (ggtags-mode 1))))
+
+  (add-hook 'python-mode-hook (lambda ()
+                                (ggtags-mode 1)))
+  (add-hook 'ggtags-mode-hook
+            (lambda ()
+              (remove-hook 'completion-at-point-functions #'ggtags-completion-at-point t)
+              (remove-hook 'completion-at-point-functions #'tags-completion-at-point-function t)))
+
+  )
 
 (use-package yasnippet-snippets
   :straight t
@@ -42,8 +61,8 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode)
 
-  (setq company-idle-delay 0.0)
-  (setq company-minimum-prefix-length 1)
+  (setq company-idle-delay 0.2)
+  (setq company-minimum-prefix-length 2)
   (setq company-show-numbers t)
 
   ;; This variable, if set to t or "all", generate alots of completion
@@ -120,16 +139,47 @@
   (ivy-prescient-mode t))
 
 (use-package lsp-mode
-  :hook (c++-mode . lsp)
   :straight t
   :commands lsp
   :config
-  (setq gc-cons-threshold 500000000) ;; 500mb
+  (setq gc-cons-threshold 10000000) ;; 10mb
   (setq read-process-output-max (* 8 1024 1024)) ;; 8mb
   (setq lsp-completion-provider nil)
-  (setq lsp-ui-sideline-show-code-actions t)
   (setq lsp-modeline-code-actions-enable t)
-  (setq lsp-ui-sideline-enable t)
+
+  ;; Add these patterns to ignore them, very important for a more
+  ;; pleasant working experience with lsp mode.
+  (push "[/\\\\]\\.mypy_cache$" lsp-file-watch-ignored)
+  (push "[/\\\\]\\.tox$" lsp-file-watch-ignored)
+  (push "[/\\\\]\\.clangd$" lsp-file-watch-ignored)
+  (push "[/\\\\]\\.nox$" lsp-file-watch-ignored)
+  (push "[/\\\\]\\.cache$" lsp-file-watch-ignored)
+  (push "[/\\\\]\\.pytest_cache$" lsp-file-watch-ignored)
+  (push "[/\\\\]__pycache__$" lsp-file-watch-ignored)
+  (push "[/\\\\]__build$" lsp-file-watch-ignored)
+  (push "[/\\\\]_build$" lsp-file-watch-ignored)
+  (push "[/\\\\]dist$" lsp-file-watch-ignored)
+  (push "[/\\\\]build$" lsp-file-watch-ignored)
+  (push "[/\\\\]\\.github$" lsp-file-watch-ignored)
+  (push "[/\\\\]\\.circleci$" lsp-file-watch-ignored)
+
+  ;; Big items in eureka repo
+  (push "[/\\\\]objects$" lsp-file-watch-ignored)
+  (push "[/\\\\]coordinates$" lsp-file-watch-ignored)
+  (push "[/\\\\]optics_handling_test$" lsp-file-watch-ignored)
+  (push "[/\\\\]optics_handling_openrave$" lsp-file-watch-ignored)
+  (push "[/\\\\]acceptance-tests$" lsp-file-watch-ignored)
+
+  ;; Lighitng logs stuffs
+  (push "[/\\\\]lightning_logs$" lsp-file-watch-ignored)
+
+  ;; training script logs stuffs
+  (push "[/\\\\]output$" lsp-file-watch-ignored)
+
+  ;; python stuffs
+  (push "[/\\\\]\\.eggs$" lsp-file-watch-ignored)
+  (push "[/\\\\].*\\.egg-info$" lsp-file-watch-ignored)
+  (push "[/\\\\]pip-wheel-metadata$" lsp-file-watch-ignored)
 
   (add-hook 'go-mode-hook #'lsp-deferred)
   
@@ -143,8 +193,19 @@
 ;; ;; optionally
 (use-package lsp-ui
   :commands lsp-ui-mode
-  :straight t)
+  :straight t
+  :config
 
+  (setq lsp-ui-sideline-show-code-actions nil)
+  (setq lsp-ui-sideline-enable t)
+  (general-define-key
+   :keymaps 'lsp-ui-mode-map
+   :state 'normal
+   "M-." 'lsp-ui-peek-find-definitions
+   "M-?" 'lsp-ui-peek-find-references
+   )
+
+  )
 
 (message "Configuring c++ code-style")
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))

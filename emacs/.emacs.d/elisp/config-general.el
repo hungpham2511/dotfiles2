@@ -1,33 +1,9 @@
-;; package -- Overal Configuration
-;;; Commentary:
-; This file contains some overall configurations of my Emacs
-
+;;; General configurations
 ;;; Code:
 ;; System configuraitons
 (require 'general)
 
-;; Prevent littering from ~ files
-(use-package no-littering
-  :demand
-  :straight t)
-
-;; A very nice package for searching. I think this one beat everything
-;; else.
-(use-package rg
-  :straight t
-  :demand
-  :after wgrep
-  :config
-  (rg-enable-default-bindings))
-
-;; Use to show the available key bindings. Press the prefix key
-;; combination then wait for 1 second.
-(use-package which-key
-  :straight t
-  :demand
-  :config
-  (which-key-mode))
-
+;;; Version control
 ;; magit: the git porcelain
 (use-package magit
   :straight t
@@ -42,7 +18,17 @@
    :states '(normal visual insert)
    "C-x C-z" 'magit-status))
 
+;; Manage PRs and issues
+(use-package forge
+  :after magit
+  :straight t)
 
+;; Review PRs
+(use-package github-review
+   :after magit forge
+   :straight t)
+
+;;; Navigation
 ;; Install evil and its friends
 (use-package evil
   :straight t
@@ -120,9 +106,7 @@
    ",ci" 'evilnc-comment-or-uncomment-lines
    ",cl" 'evilnc-comment-or-uncomment-to-the-line
    ",cc" 'evilnc-copy-and-comment-lines
-   ",cp" 'evilnc-comment-or-uncomment-paragraphs
-   )
-  )
+   ",cp" 'evilnc-comment-or-uncomment-paragraphs))
 
 (use-package evil-surround
   :straight t
@@ -135,15 +119,6 @@
 
 
 ;; Sometimes doesn't work. need to rerun this script.
-(use-package key-chord
-  :straight t
-  :after evil
-  :demand
-  :config
-  (key-chord-mode t)
-  (setq key-chord-two-keys-delay 0.1)
-  (key-chord-define evil-insert-state-map "jk" 'evil-force-normal-state))
-
 (use-package evil-magit
   :straight t
   :after magit evil)
@@ -157,6 +132,7 @@
 (straight-use-package 'ace-link)
 (setq dired-listing-switches "-lah")
 
+;;; Improve the menus with Ivy
 (use-package smex
   :straight t)
 
@@ -194,6 +170,7 @@
 	;; allow input not in order
         '((t   . ivy--regex-fuzzy))))
 
+;;; Project and file management
 (use-package neotree
   :straight t
   :defer
@@ -213,6 +190,11 @@
     "A" 'neotree-stretch-toggle
     "C" 'neotree-change-root))
 
+;; Prevent littering from ~ files
+(use-package no-littering
+  :demand
+  :straight t)
+
 (use-package projectile
   :straight t
   :after org
@@ -224,6 +206,15 @@
                 projectile-completion-system 'ivy)
   (projectile-mode +1))
 
+;;; Searching with ripgrep
+(use-package rg
+  :straight t
+  :demand
+  :after wgrep
+  :config
+  (rg-enable-default-bindings))
+
+;;; Keybindings
 (use-package hydra
   :straight t
   :after org general
@@ -234,6 +225,24 @@
     ("n" org-roam-dailies-find-next-note "next")
     ("t" org-roam-dailies-find-today "today") 
     ("f" org-roam-dailies-find-date "date")))
+
+;; Use to show the available key bindings. Press the prefix key
+;; combination then wait for 1 second.
+(use-package which-key
+  :straight t
+  :demand
+  :config
+  (which-key-mode))
+
+;; Bind a "chord", which is two keys pressed almost at the same time.
+(use-package key-chord
+  :straight t
+  :after evil
+  :demand
+  :config
+  (key-chord-mode t)
+  (setq key-chord-two-keys-delay 0.1)
+  (key-chord-define evil-insert-state-map "jk" 'evil-force-normal-state))
 
 (provide 'config-general)
 ;;; overall_configurations ends here

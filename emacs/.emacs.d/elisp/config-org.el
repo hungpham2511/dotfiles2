@@ -224,6 +224,7 @@
   ("C-c n p" 'org-roam-dailies-find-previous-note)
   ("C-c n n" 'org-roam-dailies-find-next-note)
   ("C-c n d" 'org-roam-dailies-find-directory)
+  ("C-c n b" 'ivy-bibtex)
 
   :config
   (require 'org-roam-protocol)
@@ -232,23 +233,32 @@
            #'org-roam-capture--get-point
            "* %?"
            :file-name "daily/%<%Y-%m-%d>"
-           :head "#+title: %<%Y-%m-%d>\n\n"))))
+           :head "#+title: %<%Y-%m-%d>\n\n")))
+  (defun h/org-roam-graph-current ()
+    (interactive)
+    (let ((current-prefix-arg 5))
+      (call-interactively 'org-roam-graph)))
 
-;; (use-package org-roam-server
-;;   :ensure t
-;;   :straight t
-;;   :config
-;;   (setq org-roam-server-host "127.0.0.1"
-;;         org-roam-server-port 8080
-;;         org-roam-server-authenticate nil
-;;         org-roam-server-export-inline-images t
-;;         org-roam-server-serve-files nil
-;;         org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
-;;         org-roam-server-network-poll t
-;;         org-roam-server-network-arrows nil
-;;         org-roam-server-network-label-truncate t
-;;         org-roam-server-network-label-truncate-length 60
-;;         org-roam-server-network-label-wrap-length 20))
+  (general-define-key
+   :keymaps 'org-mode-map
+   "C-c n h" 'h/org-roam-graph-current)
+  )
+
+(use-package org-roam-server
+  :ensure t
+  :straight t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8082
+        org-roam-server-authenticate nil
+        org-roam-server-export-inline-images t
+        org-roam-server-serve-files nil
+        org-roam-server-served-file-extensions '("pdf" "mp4" "ogv")
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
 
 ;; Very nice package for navigating notes. Complementary to org-roam
 ;; very well.

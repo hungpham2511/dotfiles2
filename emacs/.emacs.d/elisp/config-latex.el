@@ -81,6 +81,18 @@
     ;; this allows bibtex-search to find tags in addition to other field
     (setq bibtex-completion-additional-search-fields '(tags journal))
     (setq bibtex-completion-library-path '("~/Dropbox/BookandPaper/Papers"))
+
+    (defun bibtex-completion-open-pdf-external (keys &optional fallback-action)
+      (let ((bibtex-completion-pdf-open-function
+             (lambda (fpath) (start-process "xournalpp" "*ivy-bibtex-xournalpp*" "/usr/bin/xournalpp" fpath))))
+        (bibtex-completion-open-pdf keys fallback-action)))
+
+    (ivy-bibtex-ivify-action bibtex-completion-open-pdf-external ivy-bibtex-open-pdf-external)
+
+    (ivy-add-actions
+     'ivy-bibtex
+     '(("p" ivy-bibtex-open-pdf-external "Open PDF file in external viewer (if present)")))
+
     )
   )
 

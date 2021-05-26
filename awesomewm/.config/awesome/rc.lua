@@ -285,17 +285,11 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-   awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
-      {description="show help", group="awesome"}),
-   awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
-      {description = "view previous", group = "tag"}),
-   awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
-      {description = "view next", group = "tag"}),
-   awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
-      {description = "go back", group = "tag"}),
-
-   awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-      {description = "show main menu", group = "awesome"}),
+   awful.key({ modkey,           }, "s",      hotkeys_popup.show_help, {description="show help", group="awesome"}),
+   awful.key({ modkey,           }, "Left",   awful.tag.viewprev, {description = "view previous", group = "tag"}),
+   awful.key({ modkey,           }, "Right",  awful.tag.viewnext, {description = "view next", group = "tag"}),
+   awful.key({ modkey,           }, "Escape", awful.tag.history.restore, {description = "go back", group = "tag"}),
+   awful.key({ modkey,           }, "w", function () mymainmenu:show() end, {description = "show main menu", group = "awesome"}),
 
    -- Movement
    awful.key({ modkey }, "j",
@@ -529,8 +523,8 @@ awful.rules.rules = {
    -- All clients will match this rule.
    { rule = { },
      properties = { border_width = beautiful.border_width,
-		    border_color = beautiful.border_normal,
-		    focus = awful.client.focus.filter,
+                    border_color = beautiful.border_normal,
+                    focus = awful.client.focus.filter,
 		    raise = true,
 		    keys = clientkeys,
 		    buttons = clientbuttons,
